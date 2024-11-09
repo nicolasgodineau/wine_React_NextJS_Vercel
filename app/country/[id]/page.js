@@ -15,17 +15,6 @@ export async function generateStaticParams() {
     }));
 }
 
-// Fonction utilitaire pour obtenir l'icône en fonction du type
-function getCepageIcon(type) {
-    switch (type.toLowerCase()) {
-        case 'rouge':
-            return <Image src={rougeIcon} alt="Rouge" width={20} height={20} className="inline-block mr-2" />;
-        case 'blanc':
-            return <Image src={blancIcon} alt="Blanc" width={20} height={20} className="inline-block mr-2" />;
-        default:
-            return null; // Pas d'icône pour les autres types
-    }
-}
 
 export default async function CountryPage({ params }) {
     const country = await getCountryById(params.id);
@@ -59,7 +48,7 @@ export default async function CountryPage({ params }) {
             </header>
             <BackButton />
             <section className="">
-                <h2 className="text-2xl font-bold text-center p-4">Régions</h2>
+                <h2 className="text-2xl font-bold text-center p-2">Régions</h2>
                 <ul className="flex flex-col justify-center items-center gap-4">
                     {regionsWithCepages.map((region) => (
                         <li className='w-full flex flex-col items-center justify-center py-4 bg-slate-100 rounded-xl shadow-md shadow-slate-500/20' key={region.id}>
@@ -68,7 +57,13 @@ export default async function CountryPage({ params }) {
                                 <ul className="flex flex-col gap-2">
                                     {region.cepages.map((cepage) => (
                                         <li key={cepage.id} className="flex items-center">
-                                            {getCepageIcon(cepage.type)} {/* Affiche l'icône */}
+                                            <Image
+                                                src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon} // Condition pour le type de vin
+                                                alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"} // Alt dynamique
+                                                width={30}
+                                                height={30}
+                                                className="inline-block mr-2"
+                                            />
                                             {cepage.name}
                                         </li>
                                     ))}
