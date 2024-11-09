@@ -17,7 +17,7 @@ export default async function Home() {
             return (
               <li className="w-full flex items-center justify-center gap-1" key={country.id}>
                 <Link
-                  className="w-full flex flex-col items-center justify-center gap-2 p-4 bg-slate-100 rounded-xl shadow-md shadow-slate-500/20"
+                  className="w-full flex flex-col items-center justify-center gap-2 p-4 bg-gray-100 rounded-3xl shadow-md shadow-slate-500/20"
                   href={`/country/${country.id}`}
                   title={country.name}
                 >
