@@ -24,6 +24,12 @@ export async function getCountries() {
     try {
         const response = await notion.databases.query({
             database_id: countriesDatabaseId,
+            filter: {
+                property: 'Off_line',
+                checkbox: {
+                    equals: false, // Filtrer pour ceux qui ne sont pas cochés
+                },
+            },
             sorts: [
                 {
                     property: 'Pays',
