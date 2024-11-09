@@ -37,6 +37,7 @@ export default async function CountryPage({ params }) {
         ...region,
         cepages: region.cepages?.map(c => cepages.find(cepage => cepage.id === c.id)).filter(Boolean) || []
     }));
+    console.log('regionsWithCepages:', regionsWithCepages)
 
 
     return (
