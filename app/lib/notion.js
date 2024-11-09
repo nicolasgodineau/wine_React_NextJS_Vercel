@@ -36,6 +36,7 @@ export async function getCountries() {
             id: page.id,
             name: page.properties.Pays?.title[0].plain_text,
             flag: page.icon.emoji,
+            iso: page.properties.ISO.rich_text[0]?.plain_text?.toLowerCase() || "",
             cepages: page.properties.Cépages?.relation || [],
             regions: page.properties.Régions?.relation || [],
         }));
