@@ -52,10 +52,10 @@ export default async function CountryPage({ params }) {
                 <h2 className="text-2xl font-bold text-center p-2">Régions</h2>
                 <ul className="flex flex-col justify-center items-center gap-4">
                     {regionsWithCepages.map((region) => (
-                        <li className='w-full flex flex-col items-center justify-center py-4 bg-slate-100 rounded-xl shadow-md shadow-slate-500/20' key={region.id}>
+                        <li className='w-full flex flex-col items-center justify-center py-4 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50' key={region.id}>
                             <h3 className='text-xl font-semibold p-4'>{region.name}</h3>
                             {region.cepages.length > 0 && (
-                                <ul className="flex flex-col gap-2">
+                                <ul className="w-3/4 flex flex-col gap-2">
                                     {region.cepages.map((cepage) => (
                                         <li key={cepage.id} className="flex items-center">
                                             <Image
