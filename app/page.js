@@ -14,6 +14,7 @@ export default async function Home() {
           Pays
         </h1>
       </header>
+
       <section className="flex flex-col gap-4 md:px-4 sm:px-2">
         <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-bold">
           {countries.map((country) => {
@@ -35,3 +36,4 @@ export default async function Home() {
     </main>
   );
 }
+
