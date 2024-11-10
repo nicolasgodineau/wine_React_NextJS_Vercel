@@ -12,6 +12,7 @@ import blancIcon from '../../icons/grape_white.png';
 export default async function CountryPage({ params }) {
     const { id } = await params;
     const countryData = await getCompleteCountryData(id);
+    console.log('countryData:', countryData)
 
 
     if (!countryData) {
@@ -28,54 +29,63 @@ export default async function CountryPage({ params }) {
                 </h1>
             </header>
             <BackButton />
-            <section className='p-4 mb-8 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50'>
-                <h2 className="text-2xl font-bold text-center p-2">Cépages du pays</h2>
-                {countryData.grapes.length > 0 && (
-                    <ul className="w-full self-start flex flex-col gap-2 pl-4">
-                        {countryData.grapes.map((cepage) => (
-                            <li key={cepage.id}>
-                                <Link className='flex items-center gap-2' href={`/grape/${cepage.id}`}> {/* Lien vers la page du cépage */}
-                                    <Image
-                                        src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
-                                        alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
-                                        width={30}
-                                        height={30}
-                                        className="inline-block mr-2"
-                                    />
-                                    {cepage.name}
-                                </Link>
+            <section className="collapse collapse-arrow mb-8 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50">
+                <input type="checkbox" />
+                <div className="collapse-title text-xl font-medium pe-0">
+                    <h2 className="text-2xl font-bold text-center p-2">Cépages du pays</h2></div>
+                <div className="collapse-content">
+                    {countryData.grapes.length > 0 && (
+                        <ul className="w-full self-start flex flex-col gap-2 pl-4">
+                            {countryData.grapes.map((cepage) => (
+                                <li key={cepage.id}>
+                                    <Link className='flex items-center gap-2' href={`/grape/${cepage.id}`}> {/* Lien vers la page du cépage */}
+                                        <Image
+                                            src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
+                                            alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
+                                            width={30}
+                                            height={30}
+                                            className="inline-block mr-2"
+                                        />
+                                        {cepage.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </section>
+            <section className="collapse collapse-arrow mb-8 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50">
+                <input type="checkbox" />
+                <div className="collapse-title text-xl font-medium pe-0">
+                    <h2 className="text-2xl font-bold text-center p-2">Régions</h2></div>
+                <div className="collapse-content">
+
+                    <ul className="flex flex-col justify-center items-center gap-4">
+                        {countryData.regions.map((region) => (
+                            <li className='w-full flex flex-col items-center justify-center py-4 rounded-xl dark:text-gray-950 dark:bg-gray-300/50 bg-gray-300/20 shadow-sm' key={region.id}>
+                                <h3 className='text-xl font-semibold p-4'>{region.name}</h3>
+                                {region.grapes.length > 0 && (
+                                    <ul className="w-full self-start flex flex-col gap-2 px-4">
+                                        {region.grapes.map((cepage) => (
+                                            <li key={cepage.id} className="flex items-center">
+                                                <Link className='flex items-center gap-2' href={`/grape/${cepage.id}`}> {/* Lien vers la page du cépage */}
+                                                    <Image
+                                                        src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
+                                                        alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
+                                                        width={30}
+                                                        height={30}
+                                                        className="inline-block mr-2"
+                                                    />
+                                                    {cepage.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </li>
                         ))}
                     </ul>
-                )}
-            </section>
-            <section className='p-4 mb-10 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50'>
-                <h2 className="text-2xl font-bold text-center p-2">Régions</h2>
-                <ul className="flex flex-col justify-center items-center gap-4">
-                    {countryData.regions.map((region) => (
-                        <li className='w-full flex flex-col items-center justify-center py-4 rounded-xl dark:text-gray-950 dark:bg-gray-300/50 bg-gray-300/20 shadow-sm' key={region.id}>
-                            <h3 className='text-xl font-semibold p-4'>{region.name}</h3>
-                            {region.grapes.length > 0 && (
-                                <ul className="w-full self-start flex flex-col gap-2 px-4">
-                                    {region.grapes.map((cepage) => (
-                                        <li key={cepage.id} className="flex items-center">
-                                            <Link className='flex items-center gap-2' href={`/grape/${cepage.id}`}> {/* Lien vers la page du cépage */}
-                                                <Image
-                                                    src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
-                                                    alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
-                                                    width={30}
-                                                    height={30}
-                                                    className="inline-block mr-2"
-                                                />
-                                                {cepage.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                </div>
             </section>
         </main>
     );

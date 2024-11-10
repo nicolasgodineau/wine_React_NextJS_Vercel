@@ -127,10 +127,13 @@ export async function getGrapeById(grapeId) {
 
         // Récupérer les détails des pays associés
         const countries = await getCountriesByIds(countryIds);
+        console.log('countries:', countries)
+
+        // Trier les pays par nom (ordre alphabétique)
+        countries.sort((a, b) => a.name.localeCompare(b.name));
 
         // Récupérer les blocs associés au cépage
         const blocks = await getBlocksByPageId(grapeId);
-        console.log('Blocs du cépage:', blocks); // Loguer les blocs récupérés
 
         return {
             id: response.id,
