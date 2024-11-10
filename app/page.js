@@ -8,8 +8,11 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col">
-      <header className=" ">
-        <h1 className="text-4xl font-bold text-center my-10">Pays</h1>
+      <header className="flex flex-col items-center my-10">
+        <span className="text-7xl">🌎</span>
+        <h1 className=" text-4xl font-bold text-center ">
+          Pays
+        </h1>
       </header>
       <section className="flex flex-col gap-4 md:px-4 sm:px-2">
         <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-bold">

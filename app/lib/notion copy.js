@@ -57,6 +57,108 @@ export async function getCountries() {
     }
 }
 
+export async function getCountryById(id) {
+    const cacheKey = `country_${id}`;
+    const cachedCountry = cache.get(cacheKey);
+
+    if (cachedCountry) {
+        //console.log(`Country ${id} retrieved from cache`);
+        return cachedCountry;
+    }
+
+    //console.log(`Fetching country ${id} from Notion API`);
+    try {
+        const response = await notion.pages.retrieve({ page_id: id });
+        const country = {
+            id: response.id,
+            name: response.properties.Pays?.title[0]?.plain_text,
+            flag: response.icon?.emoji,
+            regions: response.properties.Régions?.relation || [],
+            cepages: response.properties.Cépages?.relation || [],
+        };
+
+        console.log('response:', country)
+        cache.set(cacheKey, country);
+        return country;
+    } catch (error) {
+        console.error(`Error fetching country ${id} from Notion:`, error);
+        return null;
+    }
+}
+
+
+export async function getRegions(regionIds) {
+    try {
+        const regions = await Promise.all(regionIds.map(async (regionId) => {
+            const cacheKey = `region_${regionId}`;
+            const cachedRegion = cache.get(cacheKey);
+
+            if (cachedRegion) {
+                //console.log(`Region ${regionId} retrieved from cache`);
+                return cachedRegion;
+            }
+
+            //console.log(`Fetching region ${regionId} from Notion API`);
+            const response = await notion.pages.retrieve({ page_id: regionId });
+            const region = {
+                id: response.id,
+                name: response.properties.Région?.title[0].plain_text,
+                cepages: response.properties.Cépages?.relation || [],
+            };
+
+            cache.set(cacheKey, region);
+            return region;
+        }));
+
+        // Tri des régions par nom
+        const sortedRegions = regions.sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+        );
+
+        return sortedRegions;
+    } catch (error) {
+        console.error('Error fetching regions from Notion:', error);
+        return [];
+    }
+}
+
+export async function getCepages(cepageIds) {
+    try {
+        const cepages = await Promise.all(cepageIds.map(async (cepageId) => {
+            const cacheKey = `cepage_${cepageId}`;
+            const cachedCepage = cache.get(cacheKey);
+
+            if (cachedCepage) {
+                //console.log(`Cepage ${cepageId} retrieved from cache`);
+                return cachedCepage;
+            }
+
+            //console.log(`Fetching cepage ${cepageId} from Notion API`);
+            const response = await notion.pages.retrieve({ page_id: cepageId });
+            const cepage = {
+                id: response.id,
+                name: (response.properties.Nom?.title[0]?.plain_text || '')
+                    .replace(/[^a-zA-ZÀ-ÿ\s]/g, '')  // Supprime tous les caractères non-alphabétiques
+                    .trim(),  // Supprime les espaces au début et à la fin
+                type: response.properties.Type.multi_select[0].name,
+            };
+
+            cache.set(cacheKey, cepage);
+            return cepage;
+        }));
+
+        // Tri des cépages par nom
+        const sortedCepages = cepages.sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+        );
+
+        return sortedCepages;
+    } catch (error) {
+        console.error('Error fetching cepages from Notion:', error);
+        return [];
+    }
+}
+
 export async function getCompleteCountryData(countryId) {
     try {
         // 1. Récupérer les informations du pays
@@ -111,7 +213,6 @@ export async function getCompleteCountryData(countryId) {
     }
 }
 
-// Fonction pour récupérer un cépage par son ID
 export async function getGrapeById(grapeId) {
     try {
         const response = await notion.pages.retrieve({ page_id: grapeId });
@@ -128,16 +229,11 @@ export async function getGrapeById(grapeId) {
         // Récupérer les détails des pays associés
         const countries = await getCountriesByIds(countryIds);
 
-        // Récupérer les blocs associés au cépage
-        const blocks = await getBlocksByPageId(grapeId);
-        console.log('Blocs du cépage:', blocks); // Loguer les blocs récupérés
-
         return {
             id: response.id,
             name: (response.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
             type: response.properties.Type?.multi_select[0]?.name || 'Inconnu',
             countries, // Inclure les détails des pays ici
-            blocks, // Inclure les blocs ici si nécessaire plus tard
         };
     } catch (error) {
         console.error(`Erreur lors de la récupération du cépage ${grapeId} :`, error);
@@ -145,7 +241,6 @@ export async function getGrapeById(grapeId) {
     }
 }
 
-// Fonction pour récupérer les cépageS
 export async function getGrapes() {
     const cacheKey = 'grapes';
     const cachedData = cache.get(cacheKey);
@@ -227,63 +322,5 @@ export async function getCountriesByIds(countryIds) {
     return countries.filter(country => country !== null);
 }
 
-export async function getBlocksByPageId(pageId) {
-    try {
-        const response = await notion.blocks.children.list({
-            block_id: pageId,
-        });
-
-        // Filtrer et transformer les blocs selon le type
-        const filteredBlocks = response.results.map(block => {
-            const { type } = block; // Récupérer le type du bloc
-
-            // Garder uniquement les propriétés pertinentes selon le type
-            switch (type) {
-                case 'paragraph':
-                    return {
-                        type,
-                        paragraph: block.paragraph, // Garde l'élément "paragraph"
-                    };
-                case 'heading_1':
-                    return {
-                        type,
-                        heading_1: block.heading_1, // Garde l'élément "heading_1"
-                    };
-                case 'heading_2':
-                    return {
-                        type,
-                        heading_2: block.heading_2, // Garde l'élément "heading_2"
-                    };
-                case 'heading_3':
-                    return {
-                        type,
-                        heading_3: block.heading_3, // Garde l'élément "heading_3"
-                    };
-                case 'bulleted_list_item':
-                    return {
-                        type,
-                        bulleted_list_item: block.bulleted_list_item, // Garde l'élément "bulleted_list_item"
-                    };
-                case 'numbered_list_item':
-                    return {
-                        type,
-                        numbered_list_item: block.numbered_list_item, // Garde l'élément "numbered_list_item"
-                    };
-                case 'toggle':
-                    return {
-                        type,
-                        toggle: block.toggle, // Garde l'élément "toggle"
-                    };
-                default:
-                    return null; // Ignorer d'autres types de blocs
-            }
-        }).filter(block => block !== null); // Filtrer les blocs nulls
-
-        return filteredBlocks; // Retourner les blocs filtrés
-    } catch (error) {
-        console.error(`Erreur lors de la récupération des blocs pour la page ${pageId} :`, error);
-        return []; // Retourner un tableau vide en cas d'erreur
-    }
-}
 
 export default notion;
