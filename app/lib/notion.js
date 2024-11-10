@@ -224,7 +224,12 @@ export async function getCountriesByIds(countryIds) {
     }));
 
     // Filtrer les résultats pour enlever les valeurs nulles
-    return countries.filter(country => country !== null);
+    const validCountries = countries.filter(country => country !== null);
+
+    // Trier les pays par nom (ordre alphabétique)
+    validCountries.sort((a, b) => a.name.localeCompare(b.name));
+
+    return validCountries; // Retourner le tableau trié
 }
 
 export async function getBlocksByPageId(pageId) {
