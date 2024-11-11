@@ -29,18 +29,19 @@ export default async function CountryPage({ params }) {
                 </h1>
             </header>
             <BackButton />
-            <div className='w-full flex justify-center mb-8 '>
-                <div className='w-3/4'>
-                    <Image
-                        width={500}
-                        height={500}
-                        alt="map"
-                        loading='lazy'
-                        src={countryData.country.map}>
-
-                    </Image>
+            {countryData.grapes.length > 0 && (
+                <div className='w-full flex justify-center mb-8'>
+                    <div className='w-3/4'>
+                        <Image
+                            width={500}
+                            height={500}
+                            alt="map"
+                            loading='lazy'
+                            src={countryData.country.map}
+                        />
+                    </div>
                 </div>
-            </div>
+            )}
             <section className="collapse collapse-arrow mb-8 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium pe-0">
