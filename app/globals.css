@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 .vin {
-    height: 134px;
-    width: 48px;
+    height: 133px;
+    width: 50px;
     overflow: hidden;
     border: none;
     background-image: url(./icons/wine.png);
-    animation: fill 5s;
+    animation: fill 5s infinite;
     background-repeat: repeat-x;
 }
 

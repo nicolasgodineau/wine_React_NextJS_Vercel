@@ -22,18 +22,18 @@ export default function BottleLoader() {
         return () => mediaQuery.removeListener(handleChange);
     }, []);
 
-    const Bouteille = isDarkMode ? BouteilleDark : BouteilleLight;
+    const Bouteille = isDarkMode ? BouteilleLight : BouteilleDark;
     console.log('isDarkMode:', isDarkMode)
 
     return (
         <div className='absolute h-[90svh] w-full flex'>
             <div className='relative h-[190px] m-auto'>
-                <div className='vin absolute h-[84px] w-[53px] left-[76px] bottom-[-4px]'>
+                <div className='vin absolute left-[75px] bottom-[-4px] -z-10'>
                 </div>
                 <Image
                     width={200}
                     height={150}
-                    className='bouteille'
+                    className='bouteille z-40'
                     src={Bouteille}
                     alt="Bouteille de vin"
                 />
