@@ -99,7 +99,7 @@ export async function getCompleteCountryData(countryId) {
                 id: countryResponse.id,
                 name: countryResponse.properties.Pays?.title[0]?.plain_text,
                 flag: countryResponse.icon?.emoji,
-                map: countryResponse.properties.Cartes?.files[0].file.url,
+                map: countryResponse.properties.Cartes?.files[0]?.file.url || ''
             },
             regions: regions.sort((a, b) => a.name.localeCompare(b.name)).map(region => ({
                 ...region,

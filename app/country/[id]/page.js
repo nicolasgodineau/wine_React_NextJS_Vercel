@@ -29,7 +29,7 @@ export default async function CountryPage({ params }) {
                 </h1>
             </header>
             <BackButton />
-            {countryData.grapes.length > 0 && (
+            {(countryData.grapes.length > 0 && countryData.country.map) && (
                 <div className='w-full flex justify-center mb-8'>
                     <div className='w-3/4'>
                         <Image
