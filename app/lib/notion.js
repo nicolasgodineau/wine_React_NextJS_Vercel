@@ -61,6 +61,7 @@ export async function getCompleteCountryData(countryId) {
     try {
         // 1. Récupérer les informations du pays
         const countryResponse = await notion.pages.retrieve({ page_id: countryId });
+        console.log('countryResponse:', countryResponse)
 
         // 2. Extraire les IDs des régions et des cépages liés au pays
         const regionIds = countryResponse.properties.Régions?.relation.map(r => r.id) || [];
@@ -97,7 +98,8 @@ export async function getCompleteCountryData(countryId) {
             country: {
                 id: countryResponse.id,
                 name: countryResponse.properties.Pays?.title[0]?.plain_text,
-                flag: countryResponse.icon?.emoji
+                flag: countryResponse.icon?.emoji,
+                map: countryResponse.properties.Cartes?.files[0].file.url,
             },
             regions: regions.sort((a, b) => a.name.localeCompare(b.name)).map(region => ({
                 ...region,
@@ -207,6 +209,8 @@ export async function getCountriesByIds(countryIds) {
     const countries = await Promise.all(countryIds.map(async (id) => {
         try {
             const response = await notion.pages.retrieve({ page_id: id });
+            const blocks = await getBlocksByPageId(grapeId);
+            console.log('blocks: pays', blocks)
 
             // Vérifiez si la réponse est valide
             if (!response || !response.properties) {
@@ -240,6 +244,7 @@ export async function getBlocksByPageId(pageId) {
         const response = await notion.blocks.children.list({
             block_id: pageId,
         });
+        console.log('response:', response)
 
         // Filtrer et transformer les blocs selon le type
         const filteredBlocks = response.results.map(block => {
