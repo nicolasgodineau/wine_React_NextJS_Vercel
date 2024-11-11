@@ -31,7 +31,7 @@ export default async function CountryPage({ params }) {
             <BackButton />
             {(countryData.grapes.length > 0 && countryData.country.map) && (
                 <div className='w-full flex justify-center mb-8'>
-                    <div className='w-3/4'>
+                    <div className='w-3/4 flex justify-center'>
                         <Image
                             width={500}
                             height={500}
