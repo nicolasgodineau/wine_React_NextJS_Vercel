@@ -42,7 +42,6 @@ export async function getCountries() {
             id: page.id,
             name: page.properties.Pays?.title[0].plain_text,
             flag: page.icon.emoji,
-            iso: page.properties.ISO.rich_text[0]?.plain_text?.toLowerCase() || "",
             cepages: page.properties.Cépages?.relation || [],
             regions: page.properties.Régions?.relation || [],
         }));
@@ -61,7 +60,6 @@ export async function getCompleteCountryData(countryId) {
     try {
         // 1. Récupérer les informations du pays
         const countryResponse = await notion.pages.retrieve({ page_id: countryId });
-        console.log('countryResponse:', countryResponse)
 
         // 2. Extraire les IDs des régions et des cépages liés au pays
         const regionIds = countryResponse.properties.Régions?.relation.map(r => r.id) || [];
@@ -129,13 +127,13 @@ export async function getGrapeById(grapeId) {
 
         // Récupérer les détails des pays associés
         const countries = await getCountriesByIds(countryIds);
-        console.log('countries:', countries)
 
         // Trier les pays par nom (ordre alphabétique)
         countries.sort((a, b) => a.name.localeCompare(b.name));
 
         // Récupérer les blocs associés au cépage
         const blocks = await getBlocksByPageId(grapeId);
+        console.log('blocks:', blocks)
 
         return {
             id: response.id,
@@ -209,8 +207,6 @@ export async function getCountriesByIds(countryIds) {
     const countries = await Promise.all(countryIds.map(async (id) => {
         try {
             const response = await notion.pages.retrieve({ page_id: id });
-            const blocks = await getBlocksByPageId(grapeId);
-            console.log('blocks: pays', blocks)
 
             // Vérifiez si la réponse est valide
             if (!response || !response.properties) {

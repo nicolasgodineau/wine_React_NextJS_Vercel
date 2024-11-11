@@ -14,7 +14,6 @@ export default function BottleLoader() {
 
         // Écouter les changements de mode
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        console.log('mediaQuery:', mediaQuery)
         const handleChange = (e) => setIsDarkMode(e.matches);
         mediaQuery.addListener(handleChange);
 
@@ -23,7 +22,6 @@ export default function BottleLoader() {
     }, []);
 
     const Bouteille = isDarkMode ? BouteilleLight : BouteilleDark;
-    console.log('isDarkMode:', isDarkMode)
 
     return (
         <div className='absolute h-[90svh] w-full flex'>
