@@ -2,80 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.diwali-bottle {
-    position: relative;
-    width: 4.875em;
-    height: 12.5em;
-    background-color: #34063c;
-    border-top-left-radius: 2.1875em 4.875em;
-    border-top-right-radius: 2.1875em 4.875em;
-    border-bottom-left-radius: 0.625em 1.25em;
-    border-bottom-right-radius: 0.625em 1.25em;
-    align-self: flex-end;
-    box-shadow: inset 0px 0px 5px 1px transparent;
+.vin {
+    height: 134px;
+    width: 48px;
     overflow: hidden;
+    border: none;
     background-image: url(./icons/wine.png);
-    animation: fill 5s infinite;
+    animation: fill 5s;
     background-repeat: repeat-x;
-}
-
-.diwali-bottle-wrpper:after,
-.diwali-bottle-wrpper:before {
-    content: "";
-    position: absolute;
-    top: -4.5em;
-    height: 8.125em;
-    width: 50px;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 0 0 0.4375em;
-    border-top-left-radius: 0 0;
-    border-top-right-radius: 0 0;
-    z-index: -1;
-}
-.diwali-bottle-wrpper:after {
-    left: 30px;
-    border-left-color: #34063c;
-    border-left-width: 1.5em;
-    border-bottom-left-radius: 11.25em 18.75em;
-    border-bottom-right-radius: 1.25em 0;
-    background-repeat: no-repeat;
-}
-.diwali-bottle-wrpper:before {
-    left: -3px;
-    border-right-color: #34063c;
-    border-right-width: 1.5em;
-    border-bottom-left-radius: 1.25em 0;
-    border-bottom-right-radius: 11.25em 18.75em;
-    background-repeat: no-repeat;
-}
-.diwali-rocket-bottle {
-    position: absolute;
-    left: 130px;
-    bottom: -130px;
-    width: 50px;
-    height: 270px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: rotate(-0deg);
-    transform-origin: bottom center;
-    transition: 1s ease-in;
-}
-
-.diwali-bottle-wrpper {
-    transform: scale(1) translate(-50%, -50%);
-    align-self: flex-end;
-    transform-origin: bottom;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-}
-*,
-:after,
-:before {
-    box-sizing: border-box;
-    position: relative;
 }
 
 @keyframes fill {
@@ -86,6 +20,6 @@
         background-position: -100px 100px;
     }
     100% {
-        background-position: 50px 10px;
+        background-position: 50px 0px;
     }
 }
