@@ -5,7 +5,10 @@
 /* Style pour toute les sections (padding, marge, border raduis, ombre et couleurs */
 @layer components {
     .section {
-        @apply py-4 px-2 mb-8 rounded-xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/50;
+        @apply pt-4 pb-2 px-2 mb-8 rounded-xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/50;
+    }
+    .subsections {
+        @apply mb-4 rounded-xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/20;
     }
 }
 

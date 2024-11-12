@@ -17,7 +17,7 @@ export function HeadingBlock({ block }) {
     switch (headingType) {
         case 'heading_1':
             HeadingTag = 'h2';
-            styleClass = "text-4xl font-bold text-center text-green pb-4";
+            styleClass = "text-4xl font-bold text-center text-green pb-2";
             break;
         case 'heading_2':
             HeadingTag = 'h2';
