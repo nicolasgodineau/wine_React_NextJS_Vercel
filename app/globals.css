@@ -2,16 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-.vin {
-    height: 133px;
-    width: 50px;
+/* Style pour toute les sections (padding, marge, border raduis, ombre et couleurs */
+@layer components {
+    .section {
+        @apply py-4 px-2 mb-8 rounded-xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/50;
+    }
+}
+
+/* Style pour le vin qui rempli la bouteille */
+.custom_vin {
+    position: absolute;
+    left: 70px;
+    bottom: 5px;
+    height: 128px;
+    width: 54px;
     overflow: hidden;
     border: none;
     background-image: url(./icons/wine.png);
     animation: fill 5s infinite;
     background-repeat: repeat-x;
+    z-index: -100;
 }
 
+/* Style pour l'annimation */
 @keyframes fill {
     0% {
         background-position: 0px 200px;
