@@ -6,7 +6,6 @@ import { BulletedListBlock } from '@components/blocks/BulletedListBlock';
 
 export const renderBlocks = (content) => {
     return content.map((block, index) => {
-        console.log('block:', block);
         switch (block.type) {
             case 'heading_2':
             case 'heading_3':

@@ -7,7 +7,7 @@ export function HeadingBlock({ block }) {
     const headingText = block[headingType].rich_text.map((text) => text.plain_text).join('');
 
     // Extraire la couleur des annotations ou utiliser la couleur par défaut du bloc
-    const blockColor = block[headingType].color;
+    const blockColor = block[headingType].rich_text[0].annotations.color;
 
     let HeadingTag = 'h2'; // Valeur par défaut
     let styleClass = "text-2xl font-bold text-center p-2"; // Valeur par défaut
@@ -20,15 +20,15 @@ export function HeadingBlock({ block }) {
             styleClass = "text-4xl font-bold text-center text-green pb-2";
             break;
         case 'heading_2':
-            HeadingTag = 'h2';
-            styleClass = "text-3xl font-semibold text-center text-orange p-3";
+            HeadingTag = 'h3';
+            styleClass = "text-3xl font-semibold p-3";
             break;
         case 'heading_3':
-            HeadingTag = 'h3';
-            styleClass = "text-2xl font-medium text-center p-2";
+            HeadingTag = 'h4';
+            styleClass = "text-2xl font-medium p-2";
             break;
         default:
-            HeadingTag = 'h3';
+            HeadingTag = 'h4';
             styleClass = "text-base p-1";
             break;
     }
