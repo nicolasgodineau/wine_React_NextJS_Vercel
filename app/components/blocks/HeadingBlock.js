@@ -1,8 +1,6 @@
 import React from 'react';
 
 export function HeadingBlock({ block }) {
-    console.log('block:', block);
-
     const headingType = Object.keys(block).find(key => key.startsWith('heading_'));
 
     // Extraire le texte du titre
@@ -10,7 +8,6 @@ export function HeadingBlock({ block }) {
 
     // Extraire la couleur des annotations ou utiliser la couleur par défaut du bloc
     const blockColor = block[headingType].color;
-    console.log("Couleur principale du bloc:", blockColor);
 
     let HeadingTag = 'h2'; // Valeur par défaut
     let styleClass = "text-2xl font-bold text-center p-2"; // Valeur par défaut
@@ -20,11 +17,11 @@ export function HeadingBlock({ block }) {
     switch (headingType) {
         case 'heading_1':
             HeadingTag = 'h2';
-            styleClass = "text-4xl font-bold text-center p-4";
+            styleClass = "text-4xl font-bold text-center text-green pb-4";
             break;
         case 'heading_2':
             HeadingTag = 'h2';
-            styleClass = "text-3xl font-semibold text-center p-3";
+            styleClass = "text-3xl font-semibold text-center text-orange p-3";
             break;
         case 'heading_3':
             HeadingTag = 'h3';

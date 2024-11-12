@@ -5,7 +5,7 @@ export function ParagraphBlock({ block }) {
     const lines = paragraphText.split('\n');
 
     return (
-        <p className="p-2">
+        <p className="">
             {lines.map((line, index) => (
                 <React.Fragment key={index}>
                     {line}

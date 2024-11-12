@@ -1,4 +1,4 @@
-import { getCountries } from './lib/notion';
+import { getCountries } from '@lib/notion';
 import Link from "next/link";
 
 export default async function Home() {
@@ -20,7 +20,7 @@ export default async function Home() {
             return (
               <li className="w-full flex items-center justify-center gap-1" key={country.id}>
                 <Link
-                  className="w-full flex flex-col items-center justify-center gap-2 p-4 rounded-3xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50"
+                  className="w-full flex flex-col items-center justify-center gap-2 p-4 rounded-3xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-200 bg-strone-200/50"
                   href={`/country/${country.id}`}
                   title={country.name}
                 >

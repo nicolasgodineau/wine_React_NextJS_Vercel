@@ -3,7 +3,7 @@
 import Link from 'next/link'; // Importer Link pour la navigation
 import Image from 'next/image';
 
-import bottle from '../icons/bottle.png';
+import bottle from '@icons/bottle.png';
 
 export default function BackButton() {
     return (

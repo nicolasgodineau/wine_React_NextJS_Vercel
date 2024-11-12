@@ -1,11 +1,11 @@
-import { getCompleteCountryData } from '../../lib/notion';
-import BackButton from '../../components/BackButton';
+import { getCompleteCountryData } from '@lib/notion';
+import BackButton from '@components/BackButton';
 import Image from 'next/image';
 import Link from 'next/link.js';
 
 // icônes
-import rougeIcon from '../../icons/grape_red.png';
-import blancIcon from '../../icons/grape_white.png';
+import rougeIcon from '@icons/grape_red.png';
+import blancIcon from '@icons/grape_white.png';
 
 
 
@@ -13,7 +13,6 @@ export default async function CountryPage({ params }) {
     const { id } = await params;
     const countryData = await getCompleteCountryData(id);
     console.log('countryData: pays', countryData)
-
 
     if (!countryData) {
         return <div>Pays non trouvé</div>;
@@ -42,7 +41,7 @@ export default async function CountryPage({ params }) {
                     </div>
                 </div>
             )}
-            <section className="collapse collapse-arrow mb-8 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50">
+            <section className="collapse collapse-arrow mb-8 section">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium pe-0">
                     <h2 className="text-2xl font-bold text-center p-2">Cépages du pays</h2></div>
@@ -67,7 +66,7 @@ export default async function CountryPage({ params }) {
                     )}
                 </div>
             </section>
-            <section className="collapse collapse-arrow mb-8 rounded-xl shadow-md shadow-gray-500/20 dark:shadow-none dark:text-gray-950 dark:bg-gray-200 bg-gray-200/50">
+            <section className="collapse collapse-arrow mb-8 section">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium pe-0">
                     <h2 className="text-2xl font-bold text-center p-2">Régions</h2></div>
