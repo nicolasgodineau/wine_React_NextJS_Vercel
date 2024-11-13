@@ -1,4 +1,5 @@
 import React from 'react';
+import { getColorClass, getTextStyle } from '@app/utils/notionUtils.js';
 
 export function BulletedListBlock({ block }) {
 

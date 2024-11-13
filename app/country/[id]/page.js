@@ -12,7 +12,6 @@ import blancIcon from '@icons/grape_white.png';
 export default async function CountryPage({ params }) {
     const { id } = await params;
     const countryData = await getCompleteCountryData(id);
-    console.log('countryData: pays', countryData)
 
     if (!countryData) {
         return <div>Pays non trouvé</div>;
@@ -41,7 +40,7 @@ export default async function CountryPage({ params }) {
                     </div>
                 </div>
             )}
-            <section className="collapse collapse-arrow mb-8 section">
+            <section className="collapse collapse-arrow mb-8 custom_css_section">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium pe-0">
                     <h2 className="text-2xl font-bold text-center p-2">Cépages du pays</h2></div>
@@ -66,7 +65,7 @@ export default async function CountryPage({ params }) {
                     )}
                 </div>
             </section>
-            <section className="collapse collapse-arrow mb-8 section">
+            <section className="collapse collapse-arrow mb-8 custom_css_section">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium pe-0">
                     <h2 className="text-2xl font-bold text-center p-2">Régions</h2></div>

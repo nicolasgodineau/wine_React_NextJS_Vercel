@@ -1,3 +1,4 @@
+import { getColorClass } from '@app/utils/notionUtils.js';
 import React from 'react';
 
 export function HeadingBlock({ block }) {
@@ -9,15 +10,14 @@ export function HeadingBlock({ block }) {
     // Extraire la couleur des annotations ou utiliser la couleur par défaut du bloc
     const blockColor = block[headingType].rich_text[0].annotations.color;
 
+    // Switch pour déterminer le type de titre
     let HeadingTag = 'h2'; // Valeur par défaut
     let styleClass = "text-2xl font-bold text-center p-2"; // Valeur par défaut
-    let colorClass = '';
 
-    // Switch pour déterminer le type de titre
     switch (headingType) {
         case 'heading_1':
             HeadingTag = 'h2';
-            styleClass = "text-4xl font-bold text-center text-green pb-2";
+            styleClass = "text-4xl font-bold text-left text-green pb-2";
             break;
         case 'heading_2':
             HeadingTag = 'h3';
@@ -33,39 +33,10 @@ export function HeadingBlock({ block }) {
             break;
     }
 
-    // Switch pour déterminer la classe de couleur
-    switch (blockColor) {
-        case 'blue':
-            colorClass = 'text-blue';
-            break;
-        case 'brown':
-            colorClass = 'text-brown';
-            break;
-        case 'gray':
-            colorClass = 'text-gray';
-            break;
-        case 'green':
-            colorClass = 'text-green';
-            break;
-        case 'orange':
-            colorClass = 'text-orange';
-            break;
-        case 'yellow':
-            colorClass = 'text-yellow';
-            break;
-        case 'pink':
-            colorClass = 'text-pink';
-            break;
-        case 'purple':
-            colorClass = 'text-purple';
-            break;
-        case 'red':
-            colorClass = 'text-red';
-            break;
-        default:
-            colorClass = ''; // Aucune classe si non spécifié
-            break;
-    }
+    // Pour déterminer la classe de couleur
+    let colorClass = getColorClass(blockColor)
+
+
 
     return (
         <HeadingTag className={`${styleClass} ${colorClass}`}>

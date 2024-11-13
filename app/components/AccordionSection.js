@@ -1,9 +1,7 @@
 "use client"
 import React, { useState } from 'react';
-import { renderBlocks } from '@utils/renderBlocks';
+import { renderBlocks } from '@utils/notionUtils.js';
 import { HeadingBlock } from '@components/blocks/HeadingBlock.js';
-import { ParagraphBlock } from '@components/blocks/ParagraphBlock.js';
-import { BulletedListBlock } from '@components/blocks/BulletedListBlock.js'; // Assurez-vous d'importer ce composant
 
 // Composant pour rendre un bloc de contenu
 const ContentBlock = ({ content }) => {
@@ -12,9 +10,9 @@ const ContentBlock = ({ content }) => {
         return null; // Ne rien rendre si le contenu est vide
     }
     return (
-        <div>
+        <>
             {renderBlocks(content)} {/* Appeler renderBlocks avec le tableau content */}
-        </div>
+        </>
     );
 };
 
@@ -35,7 +33,7 @@ const Section = ({ heading, content, subsections }) => {
     const isSubsection = !!subsections; // Si la section a des sous-sections, c'est une sous-section
 
     return (
-        <div className={` ${isSubsection ? 'section' : 'subsections'}`}> {/* Ajouter une classe conditionnelle */}
+        <div className={`${isSubsection ? 'custom_css_section' : 'custom_css_subsections px-1'}`}> {/* Ajouter une classe conditionnelle */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full text-left"
@@ -43,10 +41,10 @@ const Section = ({ heading, content, subsections }) => {
                 <HeadingBlock block={heading} />
             </button>
             {isOpen && (
-                <div className="content">
+                <>
                     {hasContent && <ContentBlock content={content} />}
                     {hasSubsections && (
-                        <div>
+                        <>
                             {subsections.map((subsection, index) => (
                                 <Section
                                     key={subsection.heading.id || index}
@@ -55,9 +53,9 @@ const Section = ({ heading, content, subsections }) => {
                                     subsections={subsection.subsections}
                                 />
                             ))}
-                        </div>
+                        </>
                     )}
-                </div>
+                </>
             )}
         </div>
     );

@@ -18,9 +18,9 @@ export default async function Home() {
         <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-bold">
           {countries.map((country) => {
             return (
-              <li className="w-full flex items-center justify-center gap-1" key={country.id}>
+              <li className="w-full flex items-center justify-center gap-1 " key={country.id}>
                 <Link
-                  className="w-full flex flex-col items-center justify-center gap-2 p-4 rounded-3xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-200 bg-strone-200/50"
+                  className="w-full flex flex-col items-center justify-center gap-2 p-4 custom_css_section"
                   href={`/country/${country.id}`}
                   title={country.name}
                 >

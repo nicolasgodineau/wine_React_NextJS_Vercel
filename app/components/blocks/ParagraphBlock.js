@@ -1,31 +1,35 @@
 "use client"
 import React from 'react';
+import { getColorClass, getTextStyle } from '@app/utils/notionUtils.js';
 
 export function ParagraphBlock({ block }) {
     const paragraphText = block.paragraph.rich_text;
 
     return (
-        <p className={`text-${block.color}`}>
+        <>
             {paragraphText.map((text, index) => {
                 const { annotations } = text;
 
-                // Appliquer les styles en fonction des annotations
-                const style = {
-                    fontWeight: annotations.bold ? 'bold' : 'normal',
-                    fontStyle: annotations.italic ? 'italic' : 'normal',
-                    textDecoration: annotations.strikethrough ? 'line-through' : 'none',
-                    textDecorationLine: annotations.underline ? 'underline' : 'none',
-                    color: annotations.color !== 'default' ? annotations.color : undefined,
-                };
+                const styleClass = getTextStyle(annotations);
+                const colorClass = getColorClass(styleClass.color)
+
+                // Diviser le texte par les sauts de ligne
+                const textSegments = text.text.content.split('\n');
 
                 return (
-                    <span key={index} style={style}>
-                        {text.text.content}
-                        {/* Si le texte contient un saut de ligne, ajouter un <br /> */}
-                        {index < paragraphText.length - 1 && <br />}
-                    </span>
+                    <React.Fragment key={index}>
+                        {/* Crée un <p> pour chaque segment */}
+                        {textSegments.map((segment, segmentIndex) => (
+                            <p
+                                key={segmentIndex}
+                            >
+                                {segment}
+                            </p>
+                        ))}
+                    </React.Fragment>
                 );
             })}
-        </p>
+        </>
     );
 }
+
