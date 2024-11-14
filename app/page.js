@@ -1,15 +1,21 @@
 import Link from "next/link";
+import Search from "@components/Search.js";
+import { searchCountries } from "@lib/notion.js";
 
 
 export default async function Home() {
+
+  const searchResults = await searchCountries('Fra');
+  console.log('searchResults:', searchResults)
 
   return (
     <main className="flex flex-col items-center">
       <header className="flex flex-col items-center my-10">
         <h1 className=" text-4xl font-bold text-center ">
-          Cépages à la Loupe
+          Le Monde des Cépages
         </h1>
       </header>
+      <Search placeholder="Rechercher un pays ou un cépage" />
       <section className='w-3/4 flex flex-col justify-center items-center gap-4 text-2xl font-bold mt-[40%]'>
         <div className="dropdown w-full ">
           <div tabIndex={0} role="button" className="btn w-full m-1">Voir la liste des pays</div>
