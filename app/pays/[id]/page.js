@@ -13,6 +13,8 @@ export default async function CountryPage({ params }) {
     const { id } = await params;
     const countryData = await getCompleteCountryData(id);
 
+
+
     if (!countryData) {
         return <div>Pays non trouvé</div>;
     }
@@ -49,7 +51,7 @@ export default async function CountryPage({ params }) {
                         <ul className="w-full self-start flex flex-col gap-2 pl-4">
                             {countryData.grapes.map((cepage) => (
                                 <li key={cepage.id}>
-                                    <Link className='flex items-center gap-2' href={`/grape/${cepage.id}`}> {/* Lien vers la page du cépage */}
+                                    <Link className='flex items-center gap-2' href={`/cepages/${cepage.id}`}> {/* Lien vers la page du cépage */}
                                         <Image
                                             src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
                                             alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
@@ -79,7 +81,7 @@ export default async function CountryPage({ params }) {
                                     <ul className="w-full self-start flex flex-col gap-2 px-4">
                                         {region.grapes.map((cepage) => (
                                             <li key={cepage.id} className="flex items-center">
-                                                <Link className='flex items-center gap-2' href={`/grape/${cepage.id}`}> {/* Lien vers la page du cépage */}
+                                                <Link className='flex items-center gap-2' href={`/cepages/${cepage.id}`}> {/* Lien vers la page du cépage */}
                                                     <Image
                                                         src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
                                                         alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}

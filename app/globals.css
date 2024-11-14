@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    height: 100svh;
+}
+
 /* Style pour toute les sections (padding, marge, border raduis, ombre et couleurs */
 @layer components {
     .custom_css_section {
