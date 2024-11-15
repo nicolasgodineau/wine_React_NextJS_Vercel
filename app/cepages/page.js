@@ -15,14 +15,14 @@ export default async function CepagesPage({ searchParams }) {
     console.log('grapes:', grapes)
 
     return (
-        <main className="flex flex-col">
+        <>
             <header className="flex flex-col items-center my-10">
                 <span className="text-7xl">🍇</span>
                 <h1 className=" text-4xl font-bold text-center ">
                     Liste des cépages
                 </h1>
             </header>
-            <section className="">
+            <section className="mb-24">
                 <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-medium">
                     {grapes.map((grape) => {
                         return (
@@ -46,6 +46,6 @@ export default async function CepagesPage({ searchParams }) {
                     })}
                 </ul>
             </section>
-        </main>
+        </>
     );
 }

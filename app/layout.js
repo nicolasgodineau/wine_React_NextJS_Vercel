@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Footer from "./components/Footer.js";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,9 +22,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased p-4  text-gray-950 dark:text-gray-100`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-950 dark:text-gray-100 bg-neutral-100 flex flex-col min-h-screen`}
       >
-        {children}
+        <main className="flex-grow p-4 mb-8 bg-neutral-100 ">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

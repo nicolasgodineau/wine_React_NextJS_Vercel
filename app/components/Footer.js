@@ -1,0 +1,16 @@
+'use client';
+
+import { useState } from 'react';
+import Menu from "./Menu.js"
+
+
+export default function Footer() {
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    return (
+        <footer className={`fixed bottom-0 left-0 right-0 flex flex-row justify-center items-center  backdrop-blur-md rounded-full }`}>
+            <div className={`w-[100%]  flex flex-row bg-neutral-200 justify-around items-center rounded-full p-4 mx-2 mb-2`}>
+                <Menu isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} />
+            </div>
+        </footer>
+    )
+}

@@ -7,7 +7,7 @@ import bottle from '@icons/bottle.png';
 
 export default function BackButton() {
     return (
-        <div className='fixed bottom-0 left-0 right-0 h-8 w-full flex flex-row items-center justify-center bg-white p-2'>
+        <div className='fixed top-0 left-0 right-0 h-8 w-full flex flex-row items-center justify-center  p-2'>
             <Link href="/" className="flex flex-row items-center gap-8 text-black rounded transition">
                 <Image src={bottle} alt="Retour" width={15} className="-rotate-90 " />
                 Retour

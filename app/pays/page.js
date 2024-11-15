@@ -6,7 +6,7 @@ export default async function CountriesPage({ searchParams }) {
     const countries = await getCountries(continent);
 
     return (
-        <main className="flex flex-col">
+        <>
             <header className="flex flex-col items-center my-10">
                 <span className="text-7xl">🌎</span>
                 <h1 className=" text-4xl font-bold text-center ">
@@ -14,7 +14,7 @@ export default async function CountriesPage({ searchParams }) {
                 </h1>
             </header>
 
-            <section className="">
+            <section className="mb-24">
                 <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-medium">
                     {countries.map((country) => {
                         return (
@@ -32,6 +32,6 @@ export default async function CountriesPage({ searchParams }) {
                     })}
                 </ul>
             </section>
-        </main>
+        </>
     );
 }
