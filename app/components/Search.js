@@ -15,7 +15,7 @@ export default function Search({ placeholder = "Rechercher..." }) {
   };
 
   return (
-    <div className='w-full flex items-center'>
+    <div className='w-full flex items-center pb-8'>
       <form onSubmit={handleSearch} className=" w-full flex items-center ">
         <input
           type="text"
