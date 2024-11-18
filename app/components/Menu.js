@@ -1,11 +1,13 @@
 "use client"
 import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import Image from "next/image.js";
+import Link from "next/link.js";
+
+import Search from "@components/Search.js";
+
 import loupe from "@icons/loupe.png"
 import planete from "@icons/planete.png"
 import grappe from "@icons/grappe.png"
-import Link from "next/link.js";
-import Search from "@components/Search.js";
 
 export default function Menu({ isSearchOpen, setIsSearchOpen }) {
     const [openItem, setOpenItem] = useState(null);
