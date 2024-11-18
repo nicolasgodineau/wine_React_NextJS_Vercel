@@ -1,18 +1,17 @@
 "use client"
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import Image from "next/image.js";
-
 import loupe from "@icons/loupe.png"
 import planete from "@icons/planete.png"
 import grappe from "@icons/grappe.png"
 import Link from "next/link.js";
-
 import Search from "@components/Search.js";
 
 export default function Menu({ isSearchOpen, setIsSearchOpen }) {
-    const dropdownRefs = useRef({});
-    const [openDropdown, setOpenDropdown] = useState(null);
-    const menuItems = [
+    const [openItem, setOpenItem] = useState(null);
+    const menuRef = useRef(null);
+
+    const menuItems = useMemo(() => [
         {
             name: 'Planète',
             src: planete,
@@ -34,8 +33,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
             src: loupe,
             alt: 'Icône de recherche',
             title: 'Rechercher',
-            items: [],  // Pas de dropdown pour la recherche
-            onClick: () => setIsSearchOpen(!isSearchOpen),
+            items: [],
         },
         {
             name: 'Cépages',
@@ -49,13 +47,37 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 { label: 'Cépages blancs', href: '/cepages?type=Blanc' },
             ]
         },
-    ];
+    ], []);
+
+    const handleItemClick = useCallback((itemName) => {
+        if (itemName === 'Recherche') {
+            setIsSearchOpen(prev => !prev);
+            setOpenItem(null);
+        } else {
+            setOpenItem(prev => prev === itemName ? null : itemName);
+            setIsSearchOpen(false);
+        }
+    }, [setIsSearchOpen]);
+
+    const handleLinkClick = useCallback((e) => {
+        e.stopPropagation();
+        setOpenItem(null);
+    }, []);
+
+    const handleDivClick = useCallback(() => {
+        setOpenItem(null);
+    }, []);
+
+    const getOpenItemContent = useCallback(() => {
+        const item = menuItems.find(item => item.name === openItem);
+        return item?.items || [];
+    }, [menuItems, openItem]);
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (openDropdown && !dropdownRefs.current[openDropdown].contains(event.target)) {
-                dropdownRefs.current[openDropdown].removeAttribute('open');
-                setOpenDropdown(null);
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setOpenItem(null);
+                setIsSearchOpen(false);
             }
         }
 
@@ -63,55 +85,39 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [openDropdown]);
+    }, [setIsSearchOpen]);
+
+    const containerClass = `w-full flex justify-around items-center ${openItem || isSearchOpen ? 'flex-col-reverse' : 'flex-row'}`;
 
     return (
-        <div className={`w-full flex  justify-around items-center ${isSearchOpen ? 'flex-col-reverse' : 'flex-row '}  `}>
+        <div ref={menuRef} className={containerClass}>
             <div className='w-full flex justify-around items-center'>
                 {menuItems.map((item) => (
-                    <details
-                        key={item.name}
-                        className={`dropdown ${item.dropdownClass || ''}`}
-                        ref={el => dropdownRefs.current[item.name] = el}
-                        onToggle={(e) => {
-                            if (e.target.open) {
-                                setOpenDropdown(item.name);
-                            } else {
-                                setOpenDropdown(null);
-                            }
-                        }}
-                    >
-                        <summary
-                            role="button"
-                            onClick={(e) => {
-                                if (item.onClick) {
-                                    e.preventDefault();
-                                    item.onClick();
-                                }
-                            }}
-                            className="btn border-none bg-transparent"
-                        >
-                            <div className="w-6 h-6 bg-transparent">
-                                <Image
-                                    src={item.src}
-                                    alt={item.alt}
-                                />
-                            </div>
-                        </summary>
-                        {item.items.length > 0 && (
-                            <ul tabIndex={0} className="dropdown-content menu mb-4 p-2 shadow bg-base-100 rounded-box w-52">
-                                {item.items.map((subItem, index) => (
-                                    <li key={index}>
-                                        <Link href={subItem.href} className="text-blue-600 hover:underline">
-                                            {subItem.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </details>
+                    <div key={item.name} className="cursor-pointer" onClick={() => handleItemClick(item.name)}>
+                        <Image src={item.src} alt={item.alt} width={24} height={24} />
+                    </div>
                 ))}
             </div>
+            {openItem && (
+                <div onClick={handleDivClick} className="w-full flex justify-around items-center mb-8">
+                    <ul className="space-y-2">
+                        {getOpenItemContent().map((subItem, index) => (
+                            <li
+                                key={index}
+                                className={index === 0 ? 'pb-2 font-semibold' : ''}  // Ajout de padding en bas pour le premier élément
+                            >
+                                <Link
+                                    href={subItem.href}
+                                    className="text-blue-600 hover:underline"
+                                    onClick={handleLinkClick}
+                                >
+                                    {subItem.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
             {isSearchOpen && <Search onClose={() => setIsSearchOpen(false)} />}
         </div>
     );
