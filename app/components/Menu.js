@@ -3,8 +3,6 @@ import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react'
 import Image from "next/image.js";
 import Link from "next/link.js";
 
-import Search from "@components/Search.js";
-
 import loupe from "@icons/loupe.png"
 import planete from "@icons/planete.png"
 import grappe from "@icons/grappe.png"
@@ -30,13 +28,13 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 { label: 'Océanie', href: '/pays?continent=Océanie' },
             ]
         },
-        {
-            name: 'Recherche',
-            src: loupe,
-            alt: 'Icône de recherche',
-            title: 'Rechercher',
-            items: [],
-        },
+        /*         {
+                    name: 'Recherche',
+                    src: loupe,
+                    alt: 'Icône de recherche',
+                    title: 'Rechercher',
+                    items: [],
+                }, */
         {
             name: 'Cépages',
             src: grappe,
@@ -93,7 +91,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
 
     return (
         <div ref={menuRef} className={containerClass}>
-            <div className='w-full flex justify-around items-center'>
+            <div className='w-full flex justify-around items-center '>
                 {menuItems.map((item) => (
                     <div key={item.name} className="cursor-pointer" onClick={() => handleItemClick(item.name)}>
                         <Image src={item.src} alt={item.alt} width={24} height={24} />
@@ -101,7 +99,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 ))}
             </div>
             {openItem && (
-                <div onClick={handleDivClick} className="w-full flex justify-around items-center mb-8">
+                <div onClick={handleDivClick} className="w-full flex justify-around items-center text-black mb-8">
                     <ul className="space-y-2">
                         {getOpenItemContent().map((subItem, index) => (
                             <li

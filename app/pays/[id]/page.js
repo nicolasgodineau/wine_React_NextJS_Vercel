@@ -21,7 +21,7 @@ export default async function CountryPage({ params }) {
 
 
     return (
-        <main className="">
+        <>
             <header className="flex flex-col items-center my-10">
                 <span className="text-7xl">{countryData.country.flag}</span>
                 <h1 className=" text-4xl font-bold text-center ">
@@ -100,6 +100,6 @@ export default async function CountryPage({ params }) {
                     </ul>
                 </div>
             </section>
-        </main>
+        </>
     );
 }

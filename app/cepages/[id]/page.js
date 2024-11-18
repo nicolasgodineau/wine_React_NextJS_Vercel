@@ -25,7 +25,7 @@ export default async function GrapePage({ params }) {
     }
 
     return (
-        <main className="">
+        <>
             <header className="flex flex-col items-center my-10">
                 <Image
                     src={grapeData.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
@@ -56,6 +56,6 @@ export default async function GrapePage({ params }) {
                     </ul>
                 )}
             </section>
-        </main>
+        </>
     );
 }

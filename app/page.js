@@ -1,8 +1,3 @@
-import Link from "next/link";
-import Search from "@components/Search.js";
-import { searchCountries } from "@lib/notion.js";
-import Menu from "./components/Menu.js";
-
 
 export default async function Home() {
 
