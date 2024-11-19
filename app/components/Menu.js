@@ -6,6 +6,7 @@ import Link from "next/link.js";
 import loupe from "@icons/loupe.png"
 import planete from "@icons/planete.png"
 import grappe from "@icons/grappe.png"
+import Search from './Search.js';
 
 export default function Menu({ isSearchOpen, setIsSearchOpen }) {
     const [openItem, setOpenItem] = useState(null);
@@ -28,13 +29,13 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 { label: 'Océanie', href: '/pays?continent=Océanie' },
             ]
         },
-        /*         {
-                    name: 'Recherche',
-                    src: loupe,
-                    alt: 'Icône de recherche',
-                    title: 'Rechercher',
-                    items: [],
-                }, */
+        {
+            name: 'Recherche',
+            src: loupe,
+            alt: 'Icône de recherche',
+            title: 'Rechercher',
+            items: [],
+        },
         {
             name: 'Cépages',
             src: grappe,

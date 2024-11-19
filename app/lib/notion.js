@@ -313,4 +313,140 @@ export async function getBlocksByPageId(pageId) {
     }
 }
 
+export async function searchCountries(query = '') {
+    const cacheKey = `search_${query}`;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+        console.log(`Résultats pour "${query}" récupérés depuis le cache`);
+        return cachedData;
+    }
+
+    try {
+        const response = await notion.databases.query({
+            database_id: countriesDatabaseId,
+            filter: {
+                property: 'Pays', // Remplace "Name" par le nom exact du champ dans ta DB
+                rich_text: {
+                    contains: query
+                }
+            },
+        });
+
+        // Formater les résultats
+        const countries = response.results.map((page) => ({
+            id: page.id,
+            name: page.properties.Pays?.title[0]?.plain_text || 'Inconnu',
+            flag: page.icon?.emoji || '🏳️', // Emoji par défaut si aucun n'est défini
+            continent: page.properties.Continent?.select?.name || 'Inconnu',
+            type: 'country', // Identifiant de type
+        }));
+
+        // Mise en cache des résultats
+        cache.set(cacheKey, countries, 3600); // Cache pour une durée de 1 heure
+
+        return countries;
+    } catch (error) {
+        console.error('Erreur lors de la recherche dans Notion:', error);
+        throw error;
+    }
+}
+
+// Exemple de code pour la fonction de recherche dans plusieurs bases de données
+export async function search(query) {
+    const searchTerm = query.trim().toLowerCase(); // On s'assure que la recherche est en minuscules
+
+    let results = [];
+
+    // Recherche dans la base de données des pays
+    try {
+        const countriesResponse = await notion.databases.query({
+            database_id: countriesDatabaseId,
+            filter: {
+                and: [
+                    {
+                        property: 'Off_line',
+                        checkbox: {
+                            equals: false,
+                        },
+                    },
+                    {
+                        or: [
+                            {
+                                property: 'Pays',
+                                title: {
+                                    contains: searchTerm, // Recherche par le terme de recherche
+                                },
+                            },
+                        ]
+                    }
+                ]
+            },
+            sorts: [
+                {
+                    property: 'Pays',
+                    direction: 'ascending',
+                },
+            ],
+        });
+
+        const countries = countriesResponse.results.map(page => ({
+            id: page.id,
+            name: page.properties.Pays?.title[0].plain_text,
+            flag: page.icon.emoji,
+            continent: page.properties.Continent?.select?.name || 'Unknown',
+            type: 'country', // Ajout d'un type pour identifier le résultat
+        }));
+
+        if (countries.length > 0) {
+            results = countries; // Si des pays sont trouvés, on retourne les résultats
+        }
+    } catch (err) {
+        console.error("Erreur lors de la recherche dans les pays:", err);
+    }
+
+    // Si aucun pays n'a été trouvé, recherche dans la base de données des cépages
+    if (results.length === 0) {
+        try {
+            const grapesResponse = await notion.databases.query({
+                database_id: cepagesDatabaseId,
+                filter: {
+                    or: [
+                        {
+                            property: 'Nom',
+                            title: {
+                                contains: searchTerm, // Recherche par le terme de recherche
+                            },
+                        },
+                        {
+                            property: 'Type',
+                            multi_select: {
+                                contains: searchTerm, // Recherche par le type
+                            },
+                        },
+                    ]
+                },
+                sorts: [
+                    {
+                        property: 'Nom',
+                        direction: 'ascending',
+                    },
+                ],
+            });
+
+            results = grapesResponse.results.map(page => ({
+                id: page.id,
+                name: (page.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
+                type: page.properties.Type?.multi_select.map(t => t.name) || ['Inconnu'],
+                typeResult: 'grape', // Ajout d'un type pour identifier le résultat
+            }));
+        } catch (err) {
+            console.error("Erreur lors de la recherche dans les cépages:", err);
+        }
+    }
+
+    return results; // Retourne les résultats, qu'ils viennent des pays ou des cépages
+}
+
+
 export default notion;
