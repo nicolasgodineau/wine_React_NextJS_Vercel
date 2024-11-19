@@ -42,13 +42,13 @@ export default async function GrapePage({ params }) {
             ))}
             <BackButton /> {/* Redirige vers la page des pays */}
             <section className='custom_css_section'>
-                <h2 className="text-2xl font-bold text-left dark:text-[#F5F3F4] text-[#660708] p-2">Pays avec ce cépage</h2>
+                <h2 className="text-2xl font-bold text-left text-[#660708] p-2">Pays avec ce cépage</h2>
                 {grapeData.countries.length > 0 && (
-                    <ul className="w-3/4 flex flex-col gap-2 px-4 dark:text-[#F5F3F4] text-[#660708]">
+                    <ul className="w-3/4 flex flex-col gap-2 px-4 text-[#660708]">
                         {grapeData.countries.map((country) => (
                             <li key={country.id}>
                                 <Link className='flex items-center gap-2' href={`/country/${country.id}`}> {/* Lien vers la page du cépage */}
-                                    <span className="text-3xl">{country.flag}</span>
+                                    <span className="text-3xl text-[#660708]">{country.flag}</span>
                                     {country.name}
                                 </Link>
                             </li>
