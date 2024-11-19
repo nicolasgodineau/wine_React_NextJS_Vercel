@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#f3f4f6",
-        foreground: "#111827",
+        background: "#0B090A",
+        foreground: "#161A1D",
         blue: '#1fb6ff',
         blue_background: '#E0F7FA',
         brown: '#8B4513',
@@ -26,7 +26,7 @@ module.exports = {
         pink_background: '#F8BBD0',
         purple: '#9C27B0',
         purple_background: '#E1BEE7',
-        red: '#F44336',
+        red: '#A4161A',
         red_background: '#FFCDD2',
         yellow_background: '#FFF9C4'
       },
@@ -34,3 +34,7 @@ module.exports = {
   },
   plugins: [require('daisyui'),],
 };
+/* idée de palette 
+https://coolors.co/palette/0b090a-161a1d-660708-a4161a-ba181b-e5383b-b1a7a6-d3d3d3-f5f3f4-ffffff
+
+*/

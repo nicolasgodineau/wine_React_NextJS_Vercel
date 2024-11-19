@@ -9,10 +9,10 @@ body {
 /* Style pour toute les sections (padding, marge, border raduis, ombre et couleurs */
 @layer components {
     .custom_css_section {
-        @apply pt-4 pb-2 px-2 mb-8 rounded-xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/50;
+        @apply mb-8 rounded-xl shadow-md px-1 shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-[#F5F3F4] bg-[#F5F3F4];
     }
     .custom_css_subsections {
-        @apply mb-4 rounded-xl shadow-md shadow-stone-500/20 dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/50;
+        @apply mb-4 p-2 rounded-xl shadow-md border-t-stone-300/50 border-t dark:shadow-none dark:text-stone-950 dark:bg-stone-300 bg-stone-200/50;
     }
 }
 

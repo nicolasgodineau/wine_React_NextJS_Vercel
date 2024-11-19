@@ -17,15 +17,15 @@ export function HeadingBlock({ block }) {
     switch (headingType) {
         case 'heading_1':
             HeadingTag = 'h2';
-            styleClass = "text-4xl font-bold text-left text-green pb-2";
+            styleClass = "text-4xl font-bold text-left text-red py-4 pl-3";
             break;
         case 'heading_2':
             HeadingTag = 'h3';
-            styleClass = "text-3xl font-semibold p-3";
+            styleClass = "text-3xl font-semibold text-[#BA181B] py-2 pl-2 ";
             break;
         case 'heading_3':
             HeadingTag = 'h4';
-            styleClass = "text-2xl font-medium p-2";
+            styleClass = "text-2xl font-medium text-[#E5383B] pt-4 pb-0 ";
             break;
         default:
             HeadingTag = 'h4';

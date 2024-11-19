@@ -393,7 +393,7 @@ export async function search(query) {
         const countries = countriesResponse.results.map(page => ({
             id: page.id,
             name: page.properties.Pays?.title[0].plain_text,
-            flag: page.icon.emoji,
+            icon: page.icon.emoji,
             continent: page.properties.Continent?.select?.name || 'Unknown',
             type: 'country', // Ajout d'un type pour identifier le résultat
         }));
@@ -437,7 +437,7 @@ export async function search(query) {
             results = grapesResponse.results.map(page => ({
                 id: page.id,
                 name: (page.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
-                type: page.properties.Type?.multi_select.map(t => t.name) || ['Inconnu'],
+                icon: page.properties.Type?.multi_select.map(t => t.name) || ['Inconnu'],
                 typeResult: 'grape', // Ajout d'un type pour identifier le résultat
             }));
         } catch (err) {
