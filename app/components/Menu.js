@@ -1,21 +1,32 @@
 "use client"
 import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import Image from "next/image.js";
 import Link from "next/link.js";
 
-import loupe from "@icons/loupe.png"
-import planete from "@icons/planete.png"
-import grappe from "@icons/grappe.png"
+
+import GrappeSvg from '@app/components/icons/GrappeSvg.js';
+import EarthSvg from '@app/components/icons/EarthSvg.js';
+import SearchSvg from '@app/components/icons/SearchSvg.js';
 import Search from './Search.js';
 
 export default function Menu({ isSearchOpen, setIsSearchOpen }) {
+    const [color, setColor] = useState('white');
+
+    useEffect(() => {
+        // Vérifie si le mode sombre est activé
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Définit la couleur selon le thème
+        const themeColor = isDarkMode ? 'white' : 'black';
+        setColor(themeColor);
+    }, []);
+
     const [openItem, setOpenItem] = useState(null);
     const menuRef = useRef(null);
 
     const menuItems = useMemo(() => [
         {
             name: 'Planète',
-            src: planete,
+            src: EarthSvg,
             alt: 'Icône de planète',
             title: 'Voir la liste des pays',
             dropdownClass: 'dropdown-top',
@@ -29,16 +40,17 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 { label: 'Océanie', href: '/pays?continent=Océanie' },
             ]
         },
+
         {
             name: 'Recherche',
-            src: loupe,
+            src: SearchSvg,
             alt: 'Icône de recherche',
             title: 'Rechercher',
             items: [],
         },
         {
             name: 'Cépages',
-            src: grappe,
+            src: GrappeSvg,
             alt: 'Icône de cépages',
             title: 'Voir la liste des cépages',
             dropdownClass: 'dropdown-top dropdown-end',
@@ -95,7 +107,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
             <div className='w-full flex justify-around items-center '>
                 {menuItems.map((item) => (
                     <div key={item.name} className="cursor-pointer" onClick={() => handleItemClick(item.name)}>
-                        <Image src={item.src} alt={item.alt} width={24} height={24} />
+                        <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color={color} />
                     </div>
                 ))}
             </div>
