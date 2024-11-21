@@ -11,16 +11,10 @@ import rougeIcon from '@icons/grape_red.png';
 import blancIcon from '@icons/grape_white.png';
 
 
-
-
-
 export default async function GrapePage({ params }) {
     const { id } = await params;
-
     const grapeData = await getGrapeById(id);
-    console.log('grapeData:', grapeData)
     const sections = groupSections(grapeData.blocks);
-    console.log('sections:', sections)
 
     if (!grapeData) {
         return <div>Cépage non trouvé</div>;

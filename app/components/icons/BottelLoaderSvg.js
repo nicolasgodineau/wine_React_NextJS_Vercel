@@ -3,11 +3,14 @@
 import { useTheme } from 'next-themes';
 
 export default function BottelLoaderSvg({ color }) {
+	console.log('color:', color)
 	return (
-		<svg fill={color}
+		<svg
+			fill={color}
 			height="30px"
 			width="30px"
-			viewBox="0 0 512 512" >
+			viewBox="0 0 512 512"
+			className={`${color}`}>
 
 			<g id="SVGRepo_bgCarrier" stroke-width="0" />
 
