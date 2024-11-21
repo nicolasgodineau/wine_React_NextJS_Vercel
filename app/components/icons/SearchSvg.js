@@ -1,7 +1,3 @@
-'use client';
-
-import { useTheme } from 'next-themes';
-
 export default function SearchSvg({ color }) {
     return (
         <svg

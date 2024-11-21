@@ -1,13 +1,9 @@
-'use client';
-
-import { useTheme } from 'next-themes';
-
 export default function EarthSvg({ color }) {
 	return (
-		<svg fill={color}
+		<svg
 			height="30px"
 			width="30px"
-			viewBox="0 0 512 512" >
+			viewBox="0 0 512 512">
 			<g>
 				<path d="M248.513,0C111.482,0,0,111.482,0,248.513s111.482,248.513,248.513,248.513s248.513-111.482,248.513-248.513
 		S385.543,0,248.513,0z M292.169,105.875c7.317-23.856,16.045-52.593,4.979-81.52c83.442,18.087,150.07,81.688,172.537,163.425

@@ -107,7 +107,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
             <div className='w-full flex justify-around items-center '>
                 {menuItems.map((item) => (
                     <div key={item.name} className="cursor-pointer" onClick={() => handleItemClick(item.name)}>
-                        <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color={color} />
+                        <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color="rose-950" />
                     </div>
                 ))}
             </div>
