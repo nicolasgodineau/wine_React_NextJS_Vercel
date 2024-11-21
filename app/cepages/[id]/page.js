@@ -18,7 +18,9 @@ export default async function GrapePage({ params }) {
     const { id } = await params;
 
     const grapeData = await getGrapeById(id);
+    console.log('grapeData:', grapeData)
     const sections = groupSections(grapeData.blocks);
+    console.log('sections:', sections)
 
     if (!grapeData) {
         return <div>Cépage non trouvé</div>;
@@ -33,7 +35,7 @@ export default async function GrapePage({ params }) {
                     width={72}
                     height={72}
                 />
-                <h1 className=" text-4xl font-bold text-center dark:text-[#F5F3F4] text-[#660708] ">
+                <h1 className=" text-4xl font-bold text-center text-[#660708] ">
                     {grapeData.name}
                 </h1>
             </header>

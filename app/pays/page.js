@@ -9,11 +9,10 @@ export default async function CountriesPage({ searchParams }) {
         <>
             <header className="flex flex-col items-center my-10">
                 <span className="text-7xl">🌎</span>
-                <h1 className=" text-4xl font-bold text-center ">
+                <h1 className=" text-4xl font-bold text-center text-rose-950 ">
                     {continent !== 'all' ? `${continent}` : 'Liste des pays'}
                 </h1>
             </header>
-
             <section className="mb-24">
                 <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-medium">
                     {countries.map((country) => {

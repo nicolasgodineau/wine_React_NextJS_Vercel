@@ -18,11 +18,11 @@ export default async function CepagesPage({ searchParams }) {
         <>
             <header className="flex flex-col items-center my-10">
                 <span className="text-7xl">🍇</span>
-                <h1 className=" text-4xl font-bold text-center dark:text-[#F5F3F4] text-[#660708] ">
+                <h1 className=" text-4xl font-bold text-center text-[#660708] ">
                     Liste des cépages
                 </h1>
             </header>
-            <section className="mb-24 dark:text-[#F5F3F4] text-[#660708]">
+            <section className="mb-24 text-[#660708]">
                 <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-medium">
                     {grapes.map((grape) => {
                         return (

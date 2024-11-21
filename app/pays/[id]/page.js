@@ -12,6 +12,7 @@ import blancIcon from '@icons/grape_white.png';
 export default async function CountryPage({ params }) {
     const { id } = await params;
     const countryData = await getCompleteCountryData(id);
+    console.log('countryData:', countryData)
 
 
 
@@ -42,8 +43,26 @@ export default async function CountryPage({ params }) {
                     </div>
                 </div>
             )}
-            <section className="collapse collapse-arrow mb-8 custom_css_section">
-                <input type="checkbox" />
+            <section className="mb-8 custom_css_section">
+                {countryData.grapes.length > 0 && (
+                    <ul className="w-full self-start flex flex-col gap-2 pl-4">
+                        {countryData.grapes.map((cepage) => (
+                            <li key={cepage.id}>
+                                <Link className='flex items-center gap-2' href={`/cepages/${cepage.id}`}> {/* Lien vers la page du cépage */}
+                                    <Image
+                                        src={cepage.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
+                                        alt={cepage.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
+                                        width={30}
+                                        height={30}
+                                        className="inline-block mr-2"
+                                    />
+                                    {cepage.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
                 <div className="collapse-title text-xl font-medium pe-0">
                     <h2 className="text-2xl font-bold text-center p-2">Cépages du pays</h2></div>
                 <div className="collapse-content">
@@ -75,7 +94,7 @@ export default async function CountryPage({ params }) {
 
                     <ul className="flex flex-col justify-center items-center gap-4">
                         {countryData.regions.map((region) => (
-                            <li className='w-full flex flex-col items-center justify-center py-4 rounded-xl dark:text-gray-950 dark:bg-gray-300/50 bg-gray-300/20 shadow-sm' key={region.id}>
+                            <li className='w-full flex flex-col items-center justify-center py-4 rounded-xl bg-gray-300/20 shadow-sm' key={region.id}>
                                 <h3 className='text-xl font-semibold p-4'>{region.name}</h3>
                                 {region.grapes.length > 0 && (
                                     <ul className="w-full self-start flex flex-col gap-2 px-4">

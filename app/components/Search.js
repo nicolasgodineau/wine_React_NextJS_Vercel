@@ -83,7 +83,7 @@ export default function Search() {
                                     </>
                                 </Link>
                             ) : (
-                                <Link href={`/cepage/${result.id}`} className="flex w-full">
+                                <Link href={`/cepages/${result.id}`} className="flex w-full">
                                     <>
                                         {/* Vérifie si c'est un cépage de type "rouge" ou "blanc" */}
                                         <Image

@@ -30,6 +30,7 @@ export function groupSections(blocks) {
                 heading: block,
                 content: []
             };
+            console.log('currentSubsection:', currentSubsection)
 
         } else if (currentSubsection) {
             // Si une sous-section est active, ajoute le bloc dans le contenu de cette sous-section

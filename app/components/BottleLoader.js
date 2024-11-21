@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react';
 import BouteilleDark from '@icons/wine-bottle-dark.svg';
 import BouteilleLight from '@icons/wine-bottle-light.svg';
+import BottelLoaderSvg from '@components/icons/BottelLoaderSvg.js';
+
 import Image from 'next/image';
+
 
 export default function BottleLoader() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -29,13 +32,7 @@ export default function BottleLoader() {
             <div className='custom_vin '>
                 {/* Pour le liquide */}
             </div>
-            <Image
-                width={200}
-                height={150}
-                className='z-40'
-                src={Bouteille}
-                alt="Bouteille de vin"
-            />
+            <BottelLoaderSvg />
         </div>
     );
 }
