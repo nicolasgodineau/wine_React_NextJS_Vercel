@@ -29,7 +29,7 @@ export default async function DynamicPage({ params, searchParams }) {
         icon = '🌍';
     } else {
         return (
-            <div className="text-red-500 text-center my-10">
+            <div className="text-red text-center my-10">
                 Page non trouvée : type inconnu.
             </div>
         );

@@ -4,12 +4,9 @@ import BackButton from '@components/BackButton';
 import AccordionSection from '@app/components/AccordionSection.js';
 import ListAside from '@components/ListAside';
 
-import Image from 'next/image';
-import Link from 'next/link.js';
-
 // icônes
-import rougeIcon from '@icons/grape_red.png';
-import blancIcon from '@icons/grape_white.png';
+import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
+import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 
 
 export default async function GrapePage({ params }) {
@@ -24,12 +21,11 @@ export default async function GrapePage({ params }) {
     return (
         <>
             <header className="flex flex-col items-center my-10">
-                <Image
-                    src={grapeData.type.toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
-                    alt={grapeData.type.toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
-                    width={72}
-                    height={72}
-                />
+                {grapeData.type.toLowerCase() === 'rouge' ? (
+                    <GrappeRedSvg className="inline-block mr-2" width={72} height={72} />
+                ) : (
+                    <GrappeWhiteSvg className="inline-block mr-2" width={72} height={72} />
+                )}
                 <h1 className="text-h1 font-bold text-center text-primary ">
                     {grapeData.name}
                 </h1>

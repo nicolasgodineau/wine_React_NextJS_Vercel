@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className="flex flex-col h-screen text-black bg-white"
+        className="flex flex-col h-screen text-paragraph bg-white"
       >
         <BackToTop />
 

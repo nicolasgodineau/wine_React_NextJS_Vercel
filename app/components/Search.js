@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useCallback } from 'react';
+import RippleButton from '@components/RippleButton';
 
 // icônes
-import rougeIcon from '@icons/grape_red.png';
-import blancIcon from '@icons/grape_white.png';
-import Image from 'next/image.js';
+import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
+import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 
 export default function Search() {
     const [query, setQuery] = useState('');
@@ -48,53 +48,55 @@ export default function Search() {
     };
 
     return (
-        <div className="w-full flex flex-col-reverse items-stretch gap-4 mb-8 text-black ">
-            <div className="flex">
+        <div className="w-full flex flex-col-reverse items-stretch gap-4 mb-8 text-paragraph ">
+            <div className="flex rounded-xl bg-neutral-100/50 p-1">
                 <input
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Rechercher"
-                    className="bg-neutral-100/50 w-5/6 rounded-l-xl p-2"
+                    className="bg-neutral-100/50 w-5/6 rounded-xl p-2"
                 />
-                <button
-                    onClick={handleSearch}
-                    disabled={loading}
-                    className="rounded-r-xl bg-neutral-200/80 px-4 py-2 disabled:opacity-50"
-                >
+                <RippleButton className="w-1/2 rounded-xl bg-neutral-200/80 px-4 py-2 disabled:opacity-50" effectWidth={150} effectHeight={150} onClick={handleSearch}
+                    disabled={loading}>
+
                     {loading ? 'Recherche...' : 'Valider'}
-                </button>
+                </RippleButton>
             </div>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
+            {error && <p className="text-red mt-2">{error}</p>}
             <ul className="w-full flex flex-col gap-4">
                 {results.length > 0 ? (
                     results.map((result) => (
                         <li
                             key={result.id}
-                            className="flex justify-center items-center p-2 bg-neutral-200 rounded-xl shadow hover:bg-gray-100"
+                            className="flex justify-center items-center p-2 my-2 bg-neutral-200 rounded-xl shadow hover:bg-gray-100"
                         >
                             {/* Condition pour afficher un émoji de drapeau ou l'image du cépage */}
                             {result.type === 'country' ? (
-                                <Link href={`/pays/${result.id}`} className="flex w-full">
-                                    <>
-                                        <span className="text-2xl mr-2">{result.icon}</span>
-                                        <span>{result.name}</span>
-                                        <span className="ml-auto text-sm text-gray-500">{result.continent}</span>
-                                    </>
-                                </Link>
+                                <RippleButton className="w-full px-3 rounded-full shadow-none" effectWidth={150} effectHeight={150}>
+                                    <Link href={`/pays/${result.id}`} className="flex w-full items-center justify-start">
+                                        <>
+                                            <span className="text-2xl mr-2">{result.icon}</span>
+                                            <span>{result.name}</span>
+                                            <span className="ml-auto text-sm text-gray-500">{result.continent}</span>
+                                        </>
+                                    </Link>
+                                </RippleButton>
                             ) : (
-                                <Link href={`/cepages/${result.id}`} className="flex w-full">
-                                    <>
-                                        {/* Vérifie si c'est un cépage de type "rouge" ou "blanc" */}
-                                        <Image
-                                            src={result.icon[0].toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
-                                            alt={result.icon[0].toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
-                                            width={24}
-                                            height={32}
-                                        />
-                                        <span className='flex-grow ml-2'>{result.name}</span>
-                                    </>
-                                </Link>
+                                <RippleButton className="w-full px-3 rounded-full shadow-none" effectWidth={150} effectHeight={150}>
+                                    <Link href={`/cepages/${result.id}`} className="flex w-full items-center justify-start">
+                                        <>
+                                            {/* Vérifie si c'est un cépage de type "rouge" ou "blanc" */}
+                                            {result.icon[0].toLowerCase() === 'rouge' ? (
+                                                <GrappeRedSvg className="inline-block mr-2" width={24} height={32} />
+                                            ) : (
+                                                <GrappeWhiteSvg className="inline-block mr-2" width={24} height={32} />
+                                            )}
+                                            <span className=' ml-2'>{result.name}</span>
+                                        </>
+                                    </Link>
+                                </RippleButton>
+
                             )}
                         </li>
                     ))
