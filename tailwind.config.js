@@ -39,7 +39,7 @@ module.exports = {
         yellow_background: '#FFF9C4'
       },
       fontSize: {
-        small: ".7rem",
+        small: ".9rem",
         h1: '2.25rem', // Taille personnalisée pour H1
         h2: '1.875rem', // Taille personnalisée pour H2
         h3: '1.5rem',   // Taille personnalisée pour H3
