@@ -43,7 +43,7 @@ export default async function GrapePage({ params }) {
                     <ul className="w-3/4 flex flex-col gap-2 px-4 text-[#660708]">
                         {grapeData.countries.map((country) => (
                             <li key={country.id}>
-                                <Link className='flex items-center gap-2' href={`/country/${country.id}`}> {/* Lien vers la page du cépage */}
+                                <Link className='flex items-center gap-2' href={`/pays/${country.id}`}> {/* Lien vers la page du cépage */}
                                     <span className="text-3xl text-[#660708]">{country.flag}</span>
                                     {country.name}
                                 </Link>

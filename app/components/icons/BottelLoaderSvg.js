@@ -3,7 +3,6 @@
 import { useTheme } from 'next-themes';
 
 export default function BottelLoaderSvg({ color }) {
-	console.log('color:', color)
 	return (
 		<svg
 			fill={color}

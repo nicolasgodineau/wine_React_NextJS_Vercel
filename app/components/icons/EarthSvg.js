@@ -1,6 +1,7 @@
 export default function EarthSvg({ color }) {
 	return (
 		<svg
+			fill={color}
 			height="30px"
 			width="30px"
 			viewBox="0 0 512 512">
