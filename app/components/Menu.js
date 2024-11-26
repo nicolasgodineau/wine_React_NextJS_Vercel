@@ -3,10 +3,11 @@ import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react'
 import Link from "next/link.js";
 
 
-import GrappeSvg from '@app/components/icons/GrappeSvg.js';
+import GrappeSvg from '@components/icons/GrappeSvg.js';
 import EarthSvg from '@app/components/icons/EarthSvg.js';
 import SearchSvg from '@app/components/icons/SearchSvg.js';
 import Search from './Search.js';
+import RippleButton from '@components/RippleButton.js';
 
 export default function Menu({ isSearchOpen, setIsSearchOpen }) {
     const [color, setColor] = useState('white');
@@ -106,9 +107,9 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
         <div ref={menuRef} className={containerClass}>
             <div className='w-full flex justify-around items-center '>
                 {menuItems.map((item) => (
-                    <div key={item.name} className="cursor-pointer" onClick={() => handleItemClick(item.name)}>
+                    <RippleButton key={item.name} onClick={() => handleItemClick(item.name)}>
                         <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color="#4c0519" />
-                    </div>
+                    </RippleButton>
                 ))}
             </div>
             {openItem && (
