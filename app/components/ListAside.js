@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import RippleButton from './RippleButton';
-import GrappeRedSvg from './icons/GrappeRedSvg.js';
-import GrappeWhiteSvg from './icons/GrappeWhiteSvg.js';
+import RippleButton from '@components/RippleButton';
+import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
+import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 
 export default function ListAside({ title, data, isCountryData }) {
     return (
@@ -16,7 +16,7 @@ export default function ListAside({ title, data, isCountryData }) {
                 <ul className="w-3/4 flex flex-col text-paragraph">
                     {data.map((item) => (
                         <li key={item.id} className='h-12 flex items-center'>
-                            <RippleButton className="flex items-center gap-2 px-3">
+                            <RippleButton className="flex items-center gap-2 px-3 rounded-full">
                                 <Link className="flex items-center gap-2" href={isCountryData ? `/pays/${item.id}` : `/cepages/${item.id}`}>
                                     {isCountryData ? (
                                         <>
