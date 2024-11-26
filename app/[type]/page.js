@@ -39,7 +39,7 @@ export default async function DynamicPage({ params, searchParams }) {
         <>
             <header className="flex flex-col items-center my-10">
                 <span className="text-7xl">{icon}</span>
-                <h1 className="text-4xl font-bold text-center text-[#660708]">
+                <h1 className="text-h1 font-bold text-center text-primary ">
                     {title}
                 </h1>
             </header>

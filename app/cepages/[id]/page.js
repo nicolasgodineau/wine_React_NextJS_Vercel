@@ -1,7 +1,8 @@
 import { getGrapeById } from '@lib/notion';
-import BackButton from '@components/BackButton';
 import { groupSections } from '@utils/notionUtils';
+import BackButton from '@components/BackButton';
 import AccordionSection from '@app/components/AccordionSection.js';
+import ListAside from '@components/ListAside';
 
 import Image from 'next/image';
 import Link from 'next/link.js';
@@ -29,7 +30,7 @@ export default async function GrapePage({ params }) {
                     width={72}
                     height={72}
                 />
-                <h1 className=" text-4xl font-bold text-center text-[#660708] ">
+                <h1 className="text-h1 font-bold text-center text-primary ">
                     {grapeData.name}
                 </h1>
             </header>
@@ -38,19 +39,11 @@ export default async function GrapePage({ params }) {
             ))}
             <BackButton /> {/* Redirige vers la page des pays */}
             <section className='custom_css_section'>
-                <h2 className="text-2xl font-bold text-left text-[#660708] p-2">Pays avec ce cépage</h2>
-                {grapeData.countries.length > 0 && (
-                    <ul className="w-3/4 flex flex-col gap-2 px-4 text-[#660708]">
-                        {grapeData.countries.map((country) => (
-                            <li key={country.id}>
-                                <Link className='flex items-center gap-2' href={`/pays/${country.id}`}> {/* Lien vers la page du cépage */}
-                                    <span className="text-3xl text-[#660708]">{country.flag}</span>
-                                    {country.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                <ListAside
+                    title="Pays avec ce cépage"
+                    data={grapeData.countries}
+                    isCountryData={true} // On indique que ce sont des pays (ce qui va afficher des flags)
+                />
             </section>
         </>
     );

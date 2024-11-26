@@ -33,7 +33,7 @@ const Section = ({ heading, content, subsections }) => {
     const isSubsection = !!subsections; // Si la section a des sous-sections, c'est une sous-section
 
     return (
-        <div className={`${isSubsection ? 'custom_css_section' : 'custom_css_subsections p-1'}`}> {/* Ajouter une classe conditionnelle */}
+        <div className={`${isSubsection ? 'custom_css_section' : 'custom_css_subsections p-1'} ${isOpen ? 'pb-2' : ''}`}> {/* Ajouter une classe conditionnelle */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full text-left"
@@ -64,12 +64,12 @@ const Section = ({ heading, content, subsections }) => {
 // Composant principal
 export default function AccordionSection({ section }) {
     return (
-        <div>
-            <Section
-                heading={section.heading}
-                content={section.content}
-                subsections={section.subsections}
-            />
-        </div>
+
+        <Section
+            heading={section.heading}
+            content={section.content}
+            subsections={section.subsections}
+        />
+
     );
 };

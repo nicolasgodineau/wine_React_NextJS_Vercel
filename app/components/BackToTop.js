@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import ArrowBackSvg from '@components/icons/ArrowBackSvg';
+import RippleButton from './RippleButton.js';
 export default function BackToTop() {
     // État pour contrôler la visibilité du bouton
     const [isVisible, setIsVisible] = useState(false);
@@ -34,10 +35,10 @@ export default function BackToTop() {
     return (
         <>
             {isVisible && (
-                <div className="fixed bottom-20 right-8 p-2 backdrop-blur-xl bg-neutral-300/50 shadow-lg rounded-full cursor-pointer transition-transform hover:scale-110">
-                    <button onClick={scrollToTop} className="flex items-center justify-center">
+                <div className="fixed bottom-20 right-8 mb-20 backdrop-blur-xl bg-neutral-300/50 shadow-lg rounded-full cursor-pointer transition-transform hover:scale-110">
+                    <RippleButton onClick={scrollToTop} className="flex items-center justify-center p-3">
                         <ArrowBackSvg width="30px" height="30px" fill="#4c0519" className="transform rotate-90 " />
-                    </button>
+                    </RippleButton>
                 </div>
             )}
         </>
