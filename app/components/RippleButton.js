@@ -27,7 +27,7 @@ export default function RippleButton({ children, onClick, className = '' }) {
     return (
         <button
             onClick={handleClick}
-            className={`relative overflow-hidden rounded-full p-2 bg-red-950 focus:outline-none ${className}`}
+            className={`relative overflow-hidden rounded-full bg-red-950 focus:outline-none ${className}`}
         >
             {children}
             {/* Conteneur pour les ripples */}

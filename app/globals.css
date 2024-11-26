@@ -9,7 +9,7 @@ body {
 /* Style pour toute les sections (padding, marge, border raduis, ombre et couleurs */
 @layer components {
     .custom_css_section {
-        @apply mb-8 rounded-xl shadow-md pb-2 shadow-stone-500/20 bg-neutral-50;
+        @apply mb-8 rounded-xl shadow-md shadow-stone-500/20 bg-neutral-50;
     }
     .custom_css_subsections {
         @apply mb-4 mx-2 p-3 rounded-xl shadow-md border-t-neutral-300/50 border-t bg-neutral-100;
