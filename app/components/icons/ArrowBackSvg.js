@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ArrowBackSvg = ({ width = '800px', height = '800px', fill = '#0F1729', ...props }) => {
+export default function ArrowBackSvg({ width = '800px', height = '800px', fill = '#0F1729', ...props }) {
 	return (
 		<svg
 			width={width}
@@ -15,4 +15,4 @@ const ArrowBackSvg = ({ width = '800px', height = '800px', fill = '#0F1729', ...
 	);
 };
 
-export default ArrowBackSvg;
+

@@ -1,5 +1,4 @@
 export default function SearchSvg({ color }) {
-    console.log('color:', color)
     return (
         <svg
 
