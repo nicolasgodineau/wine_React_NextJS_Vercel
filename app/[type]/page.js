@@ -2,11 +2,11 @@
 import { getGrapes, getCountries } from '@lib/notion';
 import Link from "next/link";
 import Image from 'next/image';
-
+import RippleButton from '@components/RippleButton.js';
 
 // icônes
-import rougeIcon from '@icons/grape_red.png';
-import blancIcon from '@icons/grape_white.png';
+import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
+import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 
 export default async function DynamicPage({ params, searchParams }) {
     const { type } = await params;
@@ -43,46 +43,41 @@ export default async function DynamicPage({ params, searchParams }) {
                     {title}
                 </h1>
             </header>
-            <section className="mb-24 text-[#660708]">
-                {data.length > 0 ? (
-                    <ul className="flex flex-col justify-center items-center gap-4 text-2xl font-medium">
-                        {data.map((item) => (
-                            <li
-                                key={item.id}
-                                className="w-full"
-                            >
-                                {type === 'cepages' ? (
-                                    <Link
-                                        className="flex flex-row items-center justify-start custom_css_section mb-0 pt-2"
-                                        href={`/cepages/${item.id}`}
-                                        title={item.name}
-                                    >
-                                        <span className="px-4 text-7xl">
-                                            <Image
-                                                src={item.type[0].toLowerCase() === 'rouge' ? rougeIcon : blancIcon}
-                                                alt={item.type[0].toLowerCase() === 'rouge' ? "Rouge" : "Blanc"}
-                                                width={45}
-                                                height={45}
-                                            />
-                                        </span>
-                                        {item.name}
-                                    </Link>
-                                ) : ( //pays
-                                    <Link
-                                        className="flex flex-row items-center justify-start custom_css_section mb-0 pt-2"
-                                        href={`/pays/${item.id}`}
-                                        title={item.name}
-                                    >
-                                        <span className="px-4 text-5xl">{item.flag}</span>
-                                        {item.name}
-                                    </Link>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>Aucun résultat trouvé.</p>
-                )}
+            <section className="flex flex-col gap-4 text-primary">
+                {data.map((item) => (
+                    <li key={item.id} className="w-full custom_css_section">
+                        {type === 'cepages' ? (
+                            <RippleButton className="w-full" effectWidth={150} effectHeight={150}>
+                                <Link
+                                    className="w-full flex flex-row items-center justify-start mb-0 pt-2"
+                                    href={`/cepages/${item.id}`}
+                                    title={item.name}
+                                >
+                                    <span className="px-4 text-7xl">
+                                        {item.type[0].toLowerCase() === 'rouge' ? (
+                                            <GrappeRedSvg width={45} height={45} />
+                                        ) : (
+                                            <GrappeWhiteSvg width={45} height={45} />
+                                        )}
+                                    </span>
+                                    {item.name}
+                                </Link>
+                            </RippleButton>
+                        ) : (
+                            <RippleButton className="w-full" effectWidth={150} effectHeight={150}>
+                                <Link
+                                    className="w-full flex flex-row items-center justify-start mb-0 pt-2"
+                                    href={`/pays/${item.id}`}
+                                    title={item.name}
+                                >
+                                    <span className="px-4 text-5xl">{item.flag}</span>
+                                    {item.name}
+                                </Link>
+                            </RippleButton>
+                        )}
+                    </li>
+                ))}
+
             </section>
         </>
     );
