@@ -38,7 +38,7 @@ export default async function GrapePage({ params }) {
                 <AccordionSection key={index} section={section} />
             ))}
             <BackButton /> {/* Redirige vers la page des pays */}
-            <section className='custom_css_section'>
+            <section className='custom_css_section mt-10'>
                 <ListAside
                     title="Pays avec ce cépage"
                     data={grapeData.countries}
