@@ -1,33 +1,38 @@
-'use client';
+"use client"
+import React, { useState, useEffect } from 'react';
 
-import React, { useState } from 'react';
-
-export default function RippleButton({ children, onClick, className = '' }) {
+export default function Ripple({
+    children,
+    className = '',
+    effectWidth = 50,
+    effectHeight = 50,
+}) {
     const [ripples, setRipples] = useState([]);
 
     const handleClick = (e) => {
-        const button = e.currentTarget;
-        const rect = button.getBoundingClientRect();
+        const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        // Créer un "ripple" unique
-        const newRipple = { id: Date.now(), x, y };
-        setRipples((prev) => [...prev, newRipple]);
+        const newRipple = {
+            id: Date.now(),
+            x: `${x}px`,
+            y: `${y}px`,
+        };
 
-        // Supprimer le ripple après l'animation
+        setRipples((prevRipples) => [...prevRipples, newRipple]);
+
         setTimeout(() => {
-            setRipples((prev) => prev.filter((ripple) => ripple.id !== newRipple.id));
-        }, 1000);
-
-        // Appeler la fonction onClick passée en prop
-        if (onClick) onClick(e);
+            setRipples((prevRipples) =>
+                prevRipples.filter((ripple) => ripple.id !== newRipple.id)
+            );
+        }, 600); // Durée de vie du ripple
     };
 
     return (
         <button
             onClick={handleClick}
-            className={`relative overflow-hidden rounded-full bg-red-950 focus:outline-none ${className}`}
+            className={`relative overflow-hidden focus:outline-none ${className}`}
         >
             {children}
             {/* Conteneur pour les ripples */}
@@ -39,10 +44,10 @@ export default function RippleButton({ children, onClick, className = '' }) {
                         style={{
                             left: ripple.x,
                             top: ripple.y,
-                            width: '50px',
-                            height: '50px',
-                            marginLeft: '-50px',
-                            marginTop: '-50px',
+                            width: `${effectWidth}px`,
+                            height: `${effectHeight}px`,
+                            marginLeft: `-${effectWidth / 2}px`,
+                            marginTop: `-${effectHeight / 2}px`,
                         }}
                     />
                 ))}

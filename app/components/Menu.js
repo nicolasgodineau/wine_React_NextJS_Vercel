@@ -118,20 +118,22 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 ))}
             </div>
             {openItem && (
-                <div onClick={handleDivClick} className="w-full flex justify-around items-center text-black mb-8">
-                    <ul className="space-y-2">
+                <div onClick={handleDivClick} className="w-full flex justify-around items-center text-paragraph mb-8 pt-2">
+                    <ul>
                         {getOpenItemContent().map((subItem, index) => (
                             <li
                                 key={index}
-                                className={index === 0 ? 'pb-2 font-semibold' : ''}  // Ajout de padding en bas pour le premier élément
+                                className="w-full"
                             >
-                                <Link
-                                    href={subItem.href}
-                                    className="text-blue-600 hover:underline"
-                                    onClick={handleLinkClick}
-                                >
-                                    {subItem.label}
-                                </Link>
+                                <RippleButton className="w-full text-left rounded-full p-2" onClick={() => handleItemClick(item.name)}>
+                                    <Link
+                                        href={subItem.href}
+                                        className="hover:underline"
+                                        onClick={handleLinkClick}
+                                    >
+                                        {subItem.label}
+                                    </Link>
+                                </RippleButton>
                             </li>
                         ))}
                     </ul>
