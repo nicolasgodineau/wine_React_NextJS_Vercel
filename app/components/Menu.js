@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react'
 import Link from "next/link.js";
 
 
-import GrappeSvg from '@components/icons/GrappeSvg.js';
+import GrappeSvg from '@app/components/icons/GrappeSvg.js';
 import EarthSvg from '@app/components/icons/EarthSvg.js';
 import SearchSvg from '@app/components/icons/SearchSvg.js';
 import Search from './Search.js';
@@ -107,8 +107,13 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
         <div ref={menuRef} className={containerClass}>
             <div className='w-full flex justify-around items-center '>
                 {menuItems.map((item) => (
-                    <RippleButton key={item.name} onClick={() => handleItemClick(item.name)}>
-                        <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color="#4c0519" />
+                    <RippleButton key={item.name} className="rounded-full p-2">
+                        <div
+                            onClick={() => handleItemClick(item.name)}
+                            className="cursor-pointer p-2"
+                        >
+                            <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color="#4c0519" />
+                        </div>
                     </RippleButton>
                 ))}
             </div>
