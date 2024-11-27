@@ -35,10 +35,12 @@ export default function BackToTop() {
     return (
         <>
             {isVisible && (
-                <div className="fixed bottom-20 right-8 mb-20 backdrop-blur-xl bg-neutral-300/50 shadow-lg rounded-full cursor-pointer transition-transform hover:scale-110">
-                    <RippleButton onClick={scrollToTop} className="flex items-center justify-center p-3 rounded-full">
-                        <ArrowBackSvg width="30px" height="30px" fill="#4c0519" className="transform rotate-90 " />
-                    </RippleButton>
+                <div className="fixed bottom-20 right-0 mb-10 rounded-full z-10">
+                    <div className='pt-8 pl-8 pb-8 pr-2 cursor-pointer transition-transform hover:scale-110 '>
+                        <RippleButton onClick={scrollToTop} className=" flex items-center justify-center p-3 rounded-full backdrop-blur-xl bg-neutral-300/50 ">
+                            <ArrowBackSvg width="30px" height="30px" fill="#4c0519" className="transform rotate-90 " />
+                        </RippleButton>
+                    </div>
                 </div>
             )}
         </>

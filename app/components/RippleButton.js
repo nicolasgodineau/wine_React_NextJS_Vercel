@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function Ripple({
     children,
+    onClick,
     className = '',
     effectWidth = 50,
     effectHeight = 50,
@@ -10,6 +11,9 @@ export default function Ripple({
     const [ripples, setRipples] = useState([]);
 
     const handleClick = (e) => {
+        // Appelle l'onClick passé en props
+        if (onClick) onClick(e); // IMPORTANT : Passer l'onClick ici
+
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
