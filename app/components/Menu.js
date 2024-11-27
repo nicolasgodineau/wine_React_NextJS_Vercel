@@ -110,7 +110,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                     <RippleButton key={item.name} className="rounded-full p-2">
                         <div
                             onClick={() => handleItemClick(item.name)}
-                            className="cursor-pointer p-2"
+                            className="cursor-pointer p-2 font-bold"
                         >
                             <item.src className="w-6 h-6" aria-label={item.alt} title={item.title} color="#4c0519" />
                         </div>
@@ -118,17 +118,17 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                 ))}
             </div>
             {openItem && (
-                <div onClick={handleDivClick} className="w-full flex justify-around items-center text-paragraph mb-8 pt-2">
-                    <ul>
+                <div onClick={handleDivClick} className="w-full flex justify-around items-center text-paragraph mb-2 pt-2 ">
+                    <ul className='w-1/2 '>
                         {getOpenItemContent().map((subItem, index) => (
                             <li
                                 key={index}
                                 className="w-full"
                             >
-                                <RippleButton className="w-full text-left rounded-full p-2" onClick={() => handleItemClick(item.name)}>
+                                <RippleButton className="w-full rounded-full text-center p-2" onClick={() => handleItemClick(subItem.name)}>
                                     <Link
                                         href={subItem.href}
-                                        className="hover:underline"
+                                        className={`${index === 0 ? 'font-bold text-h4' : ''}`}
                                         onClick={handleLinkClick}
                                     >
                                         {subItem.label}

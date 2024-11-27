@@ -20,12 +20,43 @@ export default async function DynamicPage({ params, searchParams }) {
     let icon = '';
 
     if (type === 'cepages') {
-        data = await getGrapes(grapesType);
-        title = 'Liste des cépages';
+        switch (grapesType.toLowerCase()) {
+            case 'rouge':
+                title = 'Liste des cépages rouges';
+                break;
+            case 'blanc':
+                title = 'Liste des cépages blancs';
+                break;
+            default:
+                title = 'Liste des cépages';
+                break;
+        }
         icon = '🍇';
     } else if (type === 'pays') {
         data = await getCountries(continent);
-        title = 'Liste des pays';
+        switch (continent.toLowerCase()) {
+            case 'afrique':
+                title = 'Les pays d\'Afrique';
+                break;
+            case 'amérique du nord':
+                title = 'Les pays d\'Amérique du Nord';
+                break;
+            case 'amérique du sud':
+                title = 'Les pays d\'Amérique du Sud';
+                break;
+            case 'asie':
+                title = 'Les pays d\'Asie';
+                break;
+            case 'europe':
+                title = 'Les pays d\'Europe';
+                break;
+            case 'océanie':
+                title = 'Les pays d\'Océanie';
+                break;
+            default:
+                title = 'Liste des pays';
+                break;
+        }
         icon = '🌍';
     } else {
         return (
@@ -64,9 +95,9 @@ export default async function DynamicPage({ params, searchParams }) {
                                 </Link>
                             </RippleButton>
                         ) : (
-                            <RippleButton className="w-full" effectWidth={150} effectHeight={150}>
+                            <RippleButton className="w-full rounded-xl" effectWidth={200} effectHeight={200}>
                                 <Link
-                                    className="w-full flex flex-row items-center justify-start mb-0 pt-2"
+                                    className="w-full flex flex-row items-center justify-start mb-0"
                                     href={`/pays/${item.id}`}
                                     title={item.name}
                                 >

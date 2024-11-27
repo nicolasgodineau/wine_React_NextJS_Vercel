@@ -55,11 +55,10 @@ export default function Search() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Rechercher"
-                    className="bg-neutral-100/50 w-5/6 rounded-xl p-2"
+                    className="bg-transparent w-5/6 rounded-xl p-2"
                 />
                 <RippleButton className="w-1/2 rounded-xl bg-neutral-200/80 px-4 py-2 disabled:opacity-50" effectWidth={150} effectHeight={150} onClick={handleSearch}
                     disabled={loading}>
-
                     {loading ? 'Recherche...' : 'Valider'}
                 </RippleButton>
             </div>

@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       >
         <BackToTop />
 
-        <main className="flex-grow p-4 pb-20">
+        <main className="flex-grow p-4 pb-32">
           {children}
         </main>
         <Footer />

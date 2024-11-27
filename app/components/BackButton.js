@@ -21,10 +21,10 @@ export default function BackButton({ className = "", effectWidth = "50px" }) {
     };
 
     return (
-        <div className="fixed top-0 left-0 m-2">
+        <div className="fixed top-0 left-0 m-2 z-10">
             <RippleButton
                 onClick={handleBack}
-                className={`flex items-center gap-2 px-4 py-2 bg-neutral-300/50 backdrop-blur-xl shadow-lg rounded-full ${canGoBack ? "" : "opacity-50 cursor-not-allowed"
+                className={`flex items-center gap-2 px-3 py-1 rounded-3xl backdrop-blur-xl backdrop-saturate-50 bg-neutral-300/50 shadow-md text-paragraph ${canGoBack ? "" : "opacity-50 cursor-not-allowed"
                     } ${className}`}
                 effectWidth={50}
                 effectHeight={50}
