@@ -23,10 +23,10 @@ body {
 /* Style pour le vin qui rempli la bouteille */
 .custom_vin {
     position: absolute;
-    left: 72px;
-    bottom: 5px;
-    height: 125px;
-    width: 55px;
+    left: 0px;
+    bottom: 7px;
+    height: 145px;
+    width: 70px;
     overflow: hidden;
     border: none;
     background-image: url(./icons/wine.png);

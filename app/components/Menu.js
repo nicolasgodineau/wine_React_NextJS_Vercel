@@ -119,7 +119,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
             </div>
             {openItem && (
                 <div onClick={handleDivClick} className="w-full flex justify-around items-center text-paragraph mb-2 pt-2 ">
-                    <ul className='w-1/2 '>
+                    <ul className='w-fit '>
                         {getOpenItemContent().map((subItem, index) => (
                             <li
                                 key={index}

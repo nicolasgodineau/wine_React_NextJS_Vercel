@@ -4,6 +4,7 @@ import RippleButton from '@components/RippleButton.js';
 import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
 import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 import { Suspense } from 'react';
+import Loader from '@app/components/Loader.js';
 
 // Metadata optimization
 export const dynamic = 'force-dynamic';
@@ -27,14 +28,6 @@ const TITLE_MAPPING = {
     }
 };
 
-// Loading state component (keeps your styling)
-function LoadingState() {
-    return (
-        <div className="text-red text-center my-10">
-            Chargement...
-        </div>
-    );
-}
 
 // Optimized data fetching based on type
 async function fetchData(type, filterValue) {
@@ -63,12 +56,12 @@ async function fetchData(type, filterValue) {
 
 export default async function DynamicPage({ params, searchParams }) {
     const { type } = params;
-    const filterValue = type === 'cepages' 
+    const filterValue = type === 'cepages'
         ? (searchParams?.type || 'all')
         : (searchParams?.continent || 'all');
 
     const result = await fetchData(type, filterValue);
-    
+
     if (!result) {
         return (
             <div className="text-red text-center my-10">
@@ -80,7 +73,7 @@ export default async function DynamicPage({ params, searchParams }) {
     const { data, icon, title } = result;
 
     return (
-        <Suspense fallback={<LoadingState />}>
+        <Suspense fallback={<Loader />}>
             <>
                 <header className="flex flex-col items-center my-10">
                     <span className="text-7xl">{icon}</span>

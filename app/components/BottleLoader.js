@@ -1,38 +1,38 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import BouteilleDark from '@icons/wine-bottle-dark.svg';
-import BouteilleLight from '@icons/wine-bottle-light.svg';
-import BottelLoaderSvg from '@components/icons/BottelLoaderSvg.js';
-
-import Image from 'next/image';
-
+import Bouteille from '../icons/wine-bottle-dark.svg';
+import Image from 'next/image.js';
 
 export default function BottleLoader() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    /* Permet de changer la bouteille si l'appareil est en mode dark ou light */
-    useEffect(() => {
-        // Vérifier le mode initial
-        setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-        // Écouter les changements de mode
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const handleChange = (e) => setIsDarkMode(e.matches);
-        mediaQuery.addListener(handleChange);
-
-        // Nettoyer l'écouteur
-        return () => mediaQuery.removeListener(handleChange);
-    }, []);
-
-    const Bouteille = isDarkMode ? BouteilleLight : BouteilleDark;
-
     return (
-        <div className='absolute top-[40%] left-2/4 -translate-x-1/2  m-auto flex '>
-            <div className='custom_vin '>
-                {/* Pour le liquide */}
+        <div className='absolute h-[90svh] w-full flex'>
+            <div className='relative h-[190px] m-auto'>
+                <div className='vin absolute h-[84px] w-[53px] left-[76px] bottom-[-4px]'>
+                </div>
+                {/* <Image width={200}
+                    height={150} className='bouteille' src={Bouteille} /> */}
+                <svg fill="#000000" height="200px" width="50px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 511 511" >
+                    <g>
+                        <path d="M311.715,157.677l-15.196-15.196c-6.138-6.139-9.519-14.3-9.519-22.981V41.141c4.899-4.31,8-10.619,8-17.641
+		C295,10.542,284.458,0,271.5,0h-32C226.542,0,216,10.542,216,23.5c0,7.023,3.101,13.332,8,17.641V119.5
+		c0,8.681-3.381,16.842-9.519,22.981l-15.196,15.196C184.27,172.692,176,192.656,176,213.892V487.5c0,12.958,10.542,23.5,23.5,23.5
+		h112c12.958,0,23.5-10.542,23.5-23.5V213.892C335,192.656,326.73,172.692,311.715,157.677z M239.5,15h32c4.687,0,8.5,3.813,8.5,8.5
+		s-3.813,8.5-8.5,8.5h-32c-4.687,0-8.5-3.813-8.5-8.5S234.813,15,239.5,15z M191,327h16.5c4.142,0,7.5-3.358,7.5-7.5
+		s-3.358-7.5-7.5-7.5H191v-17h32.5c4.142,0,7.5-3.358,7.5-7.5s-3.358-7.5-7.5-7.5H191v-25h48.5c4.687,0,8.5,3.813,8.5,8.5v128
+		c0,4.687-3.813,8.5-8.5,8.5H191V327z M320,487.5c0,4.687-3.813,8.5-8.5,8.5h-112c-4.687,0-8.5-3.813-8.5-8.5V415h48.5
+		c12.958,0,23.5-10.542,23.5-23.5v-128c0-12.958-10.542-23.5-23.5-23.5H191v-26.108c0-17.229,6.709-33.426,18.892-45.608
+		l15.196-15.196c8.972-8.972,13.913-20.9,13.913-33.587V46.987c0.167,0.004,0.332,0.013,0.5,0.013h32c0.168,0,0.333-0.009,0.5-0.013
+		V119.5c0,12.688,4.941,24.616,13.913,33.587l15.196,15.196C313.291,180.466,320,196.663,320,213.892V487.5z"/>
+                        <path d="M295.5,206.392c-4.142,0-7.5,3.358-7.5,7.5V287.5c0,4.142,3.358,7.5,7.5,7.5s7.5-3.358,7.5-7.5v-73.608
+		C303,209.75,299.642,206.392,295.5,206.392z"/>
+                        <path d="M278.481,190.911c1.464,1.465,3.384,2.197,5.303,2.197c1.919,0,3.839-0.732,5.303-2.197c2.929-2.929,2.929-7.677,0-10.606
+		l-15.196-15.196c-2.928-2.929-7.677-2.929-10.606,0c-2.929,2.929-2.929,7.677,0,10.606L278.481,190.911z"/>
+                        <path d="M231.5,464H223v-24.5c0-4.142-3.358-7.5-7.5-7.5s-7.5,3.358-7.5,7.5v32c0,4.142,3.358,7.5,7.5,7.5h16
+		c4.142,0,7.5-3.358,7.5-7.5S235.642,464,231.5,464z"/>
+                        <path d="M279.5,464h-16c-4.142,0-7.5,3.358-7.5,7.5s3.358,7.5,7.5,7.5h16c4.142,0,7.5-3.358,7.5-7.5S283.642,464,279.5,464z" />
+                    </g>
+                </svg>
             </div>
-            <BottelLoaderSvg />
+
         </div>
     );
 }
