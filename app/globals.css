@@ -22,7 +22,7 @@ body {
 
 /* Style pour le vin qui rempli la bouteille */
 .custom_vin {
-    position: absolute;
+    position: relative;
     left: 0px;
     bottom: 7px;
     height: 145px;

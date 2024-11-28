@@ -20,19 +20,18 @@ export default function Loader() {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center  bg-opacity-80 z-50">
-            <div className="flex flex-col items-center overflow-hidden relative">
-                <div className='custom_vin absolute w-min h-60'>
-                    {/* Pour le liquide */}
-                </div>
-                <Image
-                    className='w-min h-60 overflow-hidden'
-                    src={Bouteille}
-                    alt="Bouteille de vin"
-                    width={176}
-                    height={176}
-                    style={{ objectFit: "contain" }}
-                />
+            <div className='custom_vin w-min h-60'>
+                {/* Pour le liquide */}
             </div>
+            <Image
+                className='absolute w-min h-60 overflow-hidden'
+                src={Bouteille}
+                alt="Bouteille de vin"
+                width={176}
+                height={176}
+                style={{ objectFit: "contain" }}
+            />
         </div>
+
     );
 }
