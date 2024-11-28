@@ -21,7 +21,7 @@ export default function Loader() {
     return (
         <div className="fixed inset-0 flex items-center justify-center  bg-opacity-80 z-50">
             <div className="absolute flex flex-col items-center overflow-hidden">
-                <div className='custom_vin w-full relative left-0 bottom-0 rounded-b-md'>
+                <div className='custom_vin'>
                     {/* Pour le liquide */}
                 </div>
                 <Image
