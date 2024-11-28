@@ -8,7 +8,6 @@ export default async function Home() {
         <h1 className="text-h1 font-bold text-center text-primary ">
           Le Monde des Cépages
         </h1>
-        <Loader></Loader>
       </header>
     </>
   );

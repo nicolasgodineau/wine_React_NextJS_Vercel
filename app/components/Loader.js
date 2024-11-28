@@ -12,7 +12,7 @@ export default function Loader() {
     useEffect(() => {
         // Hide the loader after 5 seconds
         setTimeout(() => {
-            setShow(true);
+            setShow(false);
         }, 5000);
     }, []);
 
