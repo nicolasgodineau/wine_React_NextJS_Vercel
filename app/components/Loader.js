@@ -19,7 +19,7 @@ export default function Loader() {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center  bg-opacity-80 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-80 z-50">
             <div className='custom_vin w-min h-60'>
                 {/* Pour le liquide */}
             </div>

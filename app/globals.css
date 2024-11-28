@@ -24,7 +24,7 @@ body {
 .custom_vin {
     position: relative;
     left: 0px;
-    bottom: 7px;
+    bottom: -40px;
     height: 145px;
     width: 70px;
     overflow: hidden;
