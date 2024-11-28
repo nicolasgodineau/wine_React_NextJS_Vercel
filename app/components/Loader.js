@@ -3,11 +3,21 @@ import BouteilleDark from '@icons/wine-bottle-dark.svg';
 import BouteilleLight from '@icons/wine-bottle-light.svg';
 import BottelLoaderSvg from '@components/icons/BottelLoaderSvg.js';
 import Image from 'next/image.js';
-
+import { useEffect, useState } from 'react';
 import Bouteille from "@icons/Group.png"
 
-
 export default function Loader() {
+    const [show, setShow] = useState(true);
+
+    useEffect(() => {
+        // Hide the loader after 5 seconds
+        setTimeout(() => {
+            setShow(true);
+        }, 5000);
+    }, []);
+
+    if (!show) return null;
+
     return (
         <div className="fixed inset-0 flex items-center justify-center  bg-opacity-80 z-50">
             <div className="absolute flex flex-col items-center overflow-hidden">
