@@ -1,172 +1,52 @@
 import { Client } from '@notionhq/client';
 import NodeCache from 'node-cache';
 
-
-
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 export const countriesDatabaseId = process.env.NOTION_DATABASE_ID_COUNTRY;
 export const regionsDatabaseId = process.env.NOTION_DATABASE_ID_AREA;
 export const cepagesDatabaseId = process.env.NOTION_DATABASE_ID_CEPAGE;
 
+const cache = new NodeCache({ 
+    stdTTL: 3600,  // 1 hour cache for better performance
+    checkperiod: 120,  // Check expiration every 2 minutes
+    useClones: false,  // Improve performance by not cloning cached data
+    deleteOnExpire: true // Automatically clean up expired items
+}); 
 
-const cache = new NodeCache({ stdTTL: 600 }); // Cache valide pendant 10 minutes
-
-export async function getCountries(continent = 'all') {
-    const cacheKey = `countries_${continent}`;
-    const cachedData = cache.get(cacheKey);
-
-    if (cachedData) {
-        //console.log(`Pays Data for ${continent} retrieved from cache`);
-        return cachedData;
+// Helper function for batch fetching Notion pages
+async function fetchNotionPages(pageIds, batchSize = 10) {
+    if (!pageIds?.length) return [];
+    
+    const batches = [];
+    for (let i = 0; i < pageIds.length; i += batchSize) {
+        batches.push(pageIds.slice(i, i + batchSize));
     }
 
-    //console.log(`Pays Fetching data for ${continent} from Notion API`);
+    const results = await Promise.all(
+        batches.map(batch => 
+            Promise.all(batch.map(id => notion.pages.retrieve({ page_id: id })))
+        )
+    );
 
-    try {
-        let filter = {
-            and: [
-                {
-                    property: 'Off_line',
-                    checkbox: {
-                        equals: false,
-                    },
-                }
-            ]
-        };
+    return results.flat();
+}
 
-        // Ajouter le filtre de continent si ce n'est pas 'all'
-        if (continent !== 'all') {
-            filter.and.push({
-                property: 'Continent',
-                select: {
-                    equals: continent,
-                },
+// Helper function for database queries with retry logic
+async function queryNotionDatabase(databaseId, params, maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            return await notion.databases.query({
+                database_id: databaseId,
+                ...params
             });
+        } catch (error) {
+            if (attempt === maxRetries) throw error;
+            await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
         }
-
-        const response = await notion.databases.query({
-            database_id: countriesDatabaseId,
-            filter: filter,
-            sorts: [
-                {
-                    property: 'Pays',
-                    direction: 'ascending',
-                },
-            ],
-        });
-
-        const countries = response.results.map(page => ({
-            id: page.id,
-            name: page.properties.Pays?.title[0].plain_text,
-            flag: page.icon.emoji,
-            cepages: page.properties.Cépages?.relation || [],
-            regions: page.properties.Régions?.relation || [],
-            continent: page.properties.Continent?.select?.name || 'Unknown',
-        }));
-
-        // Stockez les données dans le cache
-        cache.set(cacheKey, countries);
-
-        return countries;
-    } catch (error) {
-        console.error('Error fetching countries from Notion:', error);
-        return [];
     }
 }
 
-export async function getCompleteCountryData(countryId) {
-    try {
-        // 1. Récupérer les informations du pays
-        const countryResponse = await notion.pages.retrieve({ page_id: countryId });
-
-        // 2. Extraire les IDs des régions et des cépages liés au pays
-        const regionIds = countryResponse.properties.Régions?.relation.map(r => r.id) || [];
-        const countryGrapeIds = countryResponse.properties.Cépages?.relation.map(c => c.id) || [];
-
-        // 3. Récupérer les informations des régions (incluant leurs cépages)
-        const regionsPromises = regionIds.map(regionId =>
-            notion.pages.retrieve({ page_id: regionId })
-                .then(regionResponse => ({
-                    id: regionResponse.id,
-                    name: regionResponse.properties.Région?.title[0]?.plain_text,
-                    grapeIds: regionResponse.properties.Cépages?.relation.map(c => c.id) || []
-                }))
-        );
-
-        // 4. Récupérer tous les cépages uniques (du pays et des régions)
-        const regions = await Promise.all(regionsPromises);
-        const allGrapeIds = [...new Set([...countryGrapeIds, ...regions.flatMap(r => r.grapeIds)])];
-
-        const grapesPromises = allGrapeIds.map(grapeId =>
-            notion.pages.retrieve({ page_id: grapeId })
-                .then(grapeResponse => ({
-                    id: grapeResponse.id,
-                    name: (grapeResponse.properties.Nom?.title[0]?.plain_text || '')
-                        .replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
-                    type: grapeResponse.properties.Type?.multi_select[0]?.name
-                }))
-        );
-
-        // 5. Assembler toutes les données
-        const grapes = await Promise.all(grapesPromises);
-
-        return {
-            country: {
-                id: countryResponse.id,
-                name: countryResponse.properties.Pays?.title[0]?.plain_text,
-                flag: countryResponse.icon?.emoji,
-                map: countryResponse.properties.Cartes?.files[0]?.file.url || ''
-            },
-            regions: regions.sort((a, b) => a.name.localeCompare(b.name)).map(region => ({
-                ...region,
-                grapes: grapes.filter(grape => region.grapeIds.includes(grape.id)).sort((a, b) => a.name.localeCompare(b.name))
-            })),
-            grapes: grapes.sort((a, b) => a.name.localeCompare(b.name))
-        };
-    } catch (error) {
-        console.error('Erreur lors de la récupération des données :', error);
-        return null;
-    }
-}
-
-// Fonction pour récupérer un cépage par son ID
-export async function getGrapeById(grapeId) {
-    try {
-        const response = await notion.pages.retrieve({ page_id: grapeId });
-
-        // Vérifiez si la réponse est valide
-        if (!response || !response.properties) {
-            console.error(`Aucune donnée trouvée pour le cépage ${grapeId}`);
-            return null;
-        }
-
-        // Récupérer les IDs des pays
-        const countryIds = response.properties.Pays?.relation?.map(c => c.id) || [];
-
-        // Récupérer les détails des pays associés
-        const countries = await getCountriesByIds(countryIds);
-
-        // Trier les pays par nom (ordre alphabétique)
-        countries.sort((a, b) => a.name.localeCompare(b.name));
-
-        // Récupérer les blocs associés au cépage
-        const blocks = await getBlocksByPageId(grapeId);
-
-        return {
-            id: response.id,
-            name: (response.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
-            type: response.properties.Type?.multi_select[0]?.name || 'Inconnu',
-            countries, // Inclure les détails des pays ici
-            blocks, // Inclure les blocs ici si nécessaire plus tard
-        };
-    } catch (error) {
-        console.error(`Erreur lors de la récupération du cépage ${grapeId} :`, error);
-        return null;
-    }
-}
-
-// Fonction pour récupérer les cépageS
 export async function getGrapes(type = 'all') {
     const cacheKey = `grapes_${type}`;
     const cachedData = cache.get(cacheKey);
@@ -188,7 +68,6 @@ export async function getGrapes(type = 'all') {
             ],
         };
 
-        // Ajouter le filtre de type si ce n'est pas 'all'
         if (type !== 'all') {
             queryParams.filter = {
                 property: 'Type',
@@ -206,9 +85,7 @@ export async function getGrapes(type = 'all') {
             type: page.properties.Type?.multi_select.map(t => t.name) || ['Inconnu'],
         }));
 
-        // Stockez les données dans le cache
         cache.set(cacheKey, grapes);
-
         return grapes;
     } catch (error) {
         console.error('Error fetching grapes from Notion:', error);
@@ -216,42 +93,194 @@ export async function getGrapes(type = 'all') {
     }
 }
 
-// Fonction pour récupérer les pays par leurs IDs
+export async function getGrapeById(grapeId) {
+    const cacheKey = `cepage_${grapeId}`;
+    const cachedData = cache.get(cacheKey);
+    
+    if (cachedData) {
+        return cachedData;
+    }
+
+    try {
+        const response = await notion.pages.retrieve({ page_id: grapeId });
+
+        // Vérifiez si la réponse est valide
+        if (!response || !response.properties) {
+            console.error(`Aucune donnée trouvée pour le cépage ${grapeId}`);
+            return null;
+        }
+
+        // Récupérer les IDs des pays
+        const countryIds = response.properties.Pays?.relation?.map(c => c.id) || [];
+
+        // Récupérer les détails des pays associés
+        const countries = await getCountriesByIds(countryIds);
+
+        // Trier les pays par nom (ordre alphabétique)
+        countries.sort((a, b) => a.name.localeCompare(b.name));
+
+        // Récupérer les blocs associés au cépage
+        const blocks = await getBlocksByPageId(grapeId);
+
+        const grapeData = {
+            id: response.id,
+            name: (response.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
+            type: response.properties.Type?.multi_select[0]?.name || 'Inconnu',
+            countries, // Inclure les détails des pays ici
+            blocks, // Inclure les blocs ici si nécessaire plus tard
+        };
+
+        cache.set(cacheKey, grapeData);
+        return grapeData;
+    } catch (error) {
+        console.error(`Erreur lors de la récupération du cépage ${grapeId} :`, error);
+        return null;
+    }
+}
+
+export async function getCountries(continent = 'all') {
+    const cacheKey = `pays_${continent}`;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+        return cachedData;
+    }
+
+    try {
+        let filter = {
+            and: [
+                {
+                    property: 'Off_line',
+                    checkbox: {
+                        equals: false,
+                    },
+                }
+            ]
+        };
+
+        if (continent !== 'all') {
+            filter.and.push({
+                property: 'Continent',
+                select: {
+                    equals: continent,
+                },
+            });
+        }
+
+        const response = await queryNotionDatabase(countriesDatabaseId, {
+            filter,
+            sorts: [{ property: 'Pays', direction: 'ascending' }],
+        });
+
+        const countries = response.results.map(page => ({
+            id: page.id,
+            name: page.properties.Pays?.title[0]?.plain_text,
+            flag: page.icon?.emoji,
+            cepages: page.properties.Cépages?.relation || [],
+            regions: page.properties.Régions?.relation || [],
+            continent: page.properties.Continent?.select?.name || 'Unknown',
+        }));
+
+        cache.set(cacheKey, countries);
+        return countries;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des pays:', error);
+        return [];
+    }
+}
+
+export async function getCompleteCountryData(countryId) {
+    const cacheKey = `pays_complet_${countryId}`;
+    const cachedData = cache.get(cacheKey);
+    
+    if (cachedData) {
+        return cachedData;
+    }
+
+    try {
+        // Fetch country data
+        const countryResponse = await notion.pages.retrieve({ page_id: countryId });
+        
+        // Get all related IDs
+        const regionIds = countryResponse.properties.Régions?.relation.map(r => r.id) || [];
+        const countryGrapeIds = countryResponse.properties.Cépages?.relation.map(c => c.id) || [];
+
+        // Parallel fetch for regions and their data
+        const regions = await fetchNotionPages(regionIds);
+        const mappedRegions = regions.map(regionResponse => ({
+            id: regionResponse.id,
+            name: regionResponse.properties.Région?.title[0]?.plain_text,
+            grapeIds: regionResponse.properties.Cépages?.relation.map(c => c.id) || []
+        }));
+
+        // Get unique grape IDs and fetch them in parallel
+        const allGrapeIds = [...new Set([...countryGrapeIds, ...mappedRegions.flatMap(r => r.grapeIds)])];
+        const grapes = await fetchNotionPages(allGrapeIds);
+        const mappedGrapes = grapes.map(grapeResponse => ({
+            id: grapeResponse.id,
+            name: (grapeResponse.properties.Nom?.title[0]?.plain_text || '')
+                .replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
+            type: grapeResponse.properties.Type?.multi_select[0]?.name
+        }));
+
+        const result = {
+            country: {
+                id: countryResponse.id,
+                name: countryResponse.properties.Pays?.title[0]?.plain_text,
+                flag: countryResponse.icon?.emoji,
+                map: countryResponse.properties.Cartes?.files[0]?.file.url || ''
+            },
+            regions: mappedRegions
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(region => ({
+                    ...region,
+                    grapes: mappedGrapes
+                        .filter(grape => region.grapeIds.includes(grape.id))
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                })),
+            grapes: mappedGrapes.sort((a, b) => a.name.localeCompare(b.name))
+        };
+
+        cache.set(cacheKey, result);
+        return result;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+        return null;
+    }
+}
+
 export async function getCountriesByIds(countryIds) {
     if (!Array.isArray(countryIds) || countryIds.length === 0) {
         console.warn('Aucun ID de pays fourni.');
-        return []; // Retourner un tableau vide si aucun ID n'est fourni
+        return []; 
     }
 
     const countries = await Promise.all(countryIds.map(async (id) => {
         try {
             const response = await notion.pages.retrieve({ page_id: id });
 
-            // Vérifiez si la réponse est valide
             if (!response || !response.properties) {
                 console.error(`Aucune donnée trouvée pour le pays ${id}`);
-                return null; // Retourner null si aucune donnée n'est trouvée
+                return null; 
             }
 
             return {
                 id: response.id,
-                name: response.properties.Pays?.title[0]?.plain_text || 'Nom inconnu', // Valeur par défaut
-                flag: response.icon?.emoji || '🏳️', // Valeur par défaut pour le drapeau
+                name: response.properties.Pays?.title[0]?.plain_text || 'Nom inconnu', 
+                flag: response.icon?.emoji || '🏳️', 
                 // Ajoutez d'autres propriétés si nécessaire
             };
         } catch (error) {
             console.error(`Erreur lors de la récupération du pays ${id} :`, error);
-            return null; // Retourner null en cas d'erreur
+            return null; 
         }
     }));
 
-    // Filtrer les résultats pour enlever les valeurs nulles
     const validCountries = countries.filter(country => country !== null);
 
-    // Trier les pays par nom (ordre alphabétique)
     validCountries.sort((a, b) => a.name.localeCompare(b.name));
 
-    return validCountries; // Retourner le tableau trié
+    return validCountries; 
 }
 
 export async function getBlocksByPageId(pageId) {
@@ -260,56 +289,54 @@ export async function getBlocksByPageId(pageId) {
             block_id: pageId,
         });
 
-        // Filtrer et transformer les blocs selon le type
         const filteredBlocks = response.results.map(block => {
-            const { type } = block; // Récupérer le type du bloc
+            const { type } = block; 
 
-            // Garder uniquement les propriétés pertinentes selon le type
             switch (type) {
                 case 'paragraph':
                     return {
                         type,
-                        paragraph: block.paragraph, // Garde l'élément "paragraph"
+                        paragraph: block.paragraph, 
                     };
                 case 'heading_1':
                     return {
                         type,
-                        heading_1: block.heading_1, // Garde l'élément "heading_1"
+                        heading_1: block.heading_1, 
                     };
                 case 'heading_2':
                     return {
                         type,
-                        heading_2: block.heading_2, // Garde l'élément "heading_2"
+                        heading_2: block.heading_2, 
                     };
                 case 'heading_3':
                     return {
                         type,
-                        heading_3: block.heading_3, // Garde l'élément "heading_3"
+                        heading_3: block.heading_3, 
                     };
                 case 'bulleted_list_item':
                     return {
                         type,
-                        bulleted_list_item: block.bulleted_list_item, // Garde l'élément "bulleted_list_item"
+                        bulleted_list_item: block.bulleted_list_item, 
                     };
                 case 'numbered_list_item':
                     return {
                         type,
-                        numbered_list_item: block.numbered_list_item, // Garde l'élément "numbered_list_item"
+                        numbered_list_item: block.numbered_list_item, 
                     };
                 case 'toggle':
                     return {
                         type,
-                        toggle: block.toggle, // Garde l'élément "toggle"
+                        toggle: block.toggle, 
                     };
                 default:
-                    return null; // Ignorer d'autres types de blocs
+                    return null; 
             }
-        }).filter(block => block !== null); // Filtrer les blocs nulls
+        }).filter(block => block !== null); 
 
-        return filteredBlocks; // Retourner les blocs filtrés
+        return filteredBlocks; 
     } catch (error) {
         console.error(`Erreur lors de la récupération des blocs pour la page ${pageId} :`, error);
-        return []; // Retourner un tableau vide en cas d'erreur
+        return []; 
     }
 }
 
@@ -326,24 +353,22 @@ export async function searchCountries(query = '') {
         const response = await notion.databases.query({
             database_id: countriesDatabaseId,
             filter: {
-                property: 'Pays', // Remplace "Name" par le nom exact du champ dans ta DB
+                property: 'Pays', 
                 rich_text: {
                     contains: query
                 }
             },
         });
 
-        // Formater les résultats
         const countries = response.results.map((page) => ({
             id: page.id,
             name: page.properties.Pays?.title[0]?.plain_text || 'Inconnu',
-            flag: page.icon?.emoji || '🏳️', // Emoji par défaut si aucun n'est défini
+            flag: page.icon?.emoji || '🏳️', 
             continent: page.properties.Continent?.select?.name || 'Inconnu',
-            type: 'country', // Identifiant de type
+            type: 'country', 
         }));
 
-        // Mise en cache des résultats
-        cache.set(cacheKey, countries, 3600); // Cache pour une durée de 1 heure
+        cache.set(cacheKey, countries, 3600); 
 
         return countries;
     } catch (error) {
@@ -352,101 +377,85 @@ export async function searchCountries(query = '') {
     }
 }
 
-// Exemple de code pour la fonction de recherche dans plusieurs bases de données
 export async function search(query) {
-    const searchTerm = query.trim().toLowerCase(); // On s'assure que la recherche est en minuscules
+    const searchTerm = query.trim().toLowerCase();
+    const cacheKey = `search_${searchTerm}`;
+    const cachedResults = cache.get(cacheKey);
 
-    let results = [];
-
-    // Recherche dans la base de données des pays
-    try {
-        const countriesResponse = await notion.databases.query({
-            database_id: countriesDatabaseId,
-            filter: {
-                and: [
-                    {
-                        property: 'Off_line',
-                        checkbox: {
-                            equals: false,
-                        },
-                    },
-                    {
-                        or: [
-                            {
-                                property: 'Pays',
-                                title: {
-                                    contains: searchTerm, // Recherche par le terme de recherche
-                                },
-                            },
-                        ]
-                    }
-                ]
-            },
-            sorts: [
-                {
-                    property: 'Pays',
-                    direction: 'ascending',
-                },
-            ],
-        });
-
-        const countries = countriesResponse.results.map(page => ({
-            id: page.id,
-            name: page.properties.Pays?.title[0].plain_text,
-            icon: page.icon.emoji,
-            continent: page.properties.Continent?.select?.name || 'Unknown',
-            type: 'country', // Ajout d'un type pour identifier le résultat
-        }));
-
-        if (countries.length > 0) {
-            results = countries; // Si des pays sont trouvés, on retourne les résultats
-        }
-    } catch (err) {
-        console.error("Erreur lors de la recherche dans les pays:", err);
+    if (cachedResults) {
+        return cachedResults;
     }
 
-    // Si aucun pays n'a été trouvé, recherche dans la base de données des cépages
-    if (results.length === 0) {
-        try {
-            const grapesResponse = await notion.databases.query({
+    try {
+        const [countriesResponse, grapesResponse] = await Promise.all([
+            notion.databases.query({
+                database_id: countriesDatabaseId,
+                filter: {
+                    and: [
+                        {
+                            property: 'Off_line',
+                            checkbox: {
+                                equals: false,
+                            },
+                        },
+                        {
+                            or: [
+                                {
+                                    property: 'Pays',
+                                    title: {
+                                        contains: searchTerm,
+                                    },
+                                },
+                            ]
+                        }
+                    ]
+                },
+                sorts: [{ property: 'Pays', direction: 'ascending' }],
+            }),
+            notion.databases.query({
                 database_id: cepagesDatabaseId,
                 filter: {
                     or: [
                         {
                             property: 'Nom',
                             title: {
-                                contains: searchTerm, // Recherche par le terme de recherche
+                                contains: searchTerm,
                             },
                         },
                         {
                             property: 'Type',
                             multi_select: {
-                                contains: searchTerm, // Recherche par le type
+                                contains: searchTerm,
                             },
                         },
                     ]
                 },
-                sorts: [
-                    {
-                        property: 'Nom',
-                        direction: 'ascending',
-                    },
-                ],
-            });
+                sorts: [{ property: 'Nom', direction: 'ascending' }],
+            })
+        ]);
 
-            results = grapesResponse.results.map(page => ({
-                id: page.id,
-                name: (page.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
-                icon: page.properties.Type?.multi_select.map(t => t.name) || ['Inconnu'],
-                typeResult: 'grape', // Ajout d'un type pour identifier le résultat
-            }));
-        } catch (err) {
-            console.error("Erreur lors de la recherche dans les cépages:", err);
-        }
+        const countries = countriesResponse.results.map(page => ({
+            id: page.id,
+            name: page.properties.Pays?.title[0].plain_text,
+            icon: page.icon.emoji,
+            continent: page.properties.Continent?.select?.name || 'Unknown',
+            type: 'country',
+        }));
+
+        const grapes = grapesResponse.results.map(page => ({
+            id: page.id,
+            name: (page.properties.Nom?.title[0]?.plain_text || '').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim(),
+            icon: page.properties.Type?.multi_select.map(t => t.name) || ['Inconnu'],
+            typeResult: 'grape',
+        }));
+
+        const results = countries.length > 0 ? countries : grapes;
+        cache.set(cacheKey, results, 300); 
+        return results;
+    } catch (error) {
+        console.error('Erreur lors de la recherche:', error);
+        return [];
     }
-
-    return results; // Retourne les résultats, qu'ils viennent des pays ou des cépages
 }
-
 
 export default notion;
