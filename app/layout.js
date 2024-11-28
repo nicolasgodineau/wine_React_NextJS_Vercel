@@ -1,25 +1,24 @@
-
 import "./globals.css";
 import Footer from "@components/Footer.js";
 import BackToTop from "@components/BackToTop.js";
+import { LoadingProvider } from '@app/context/LoadingContext';
 
 export const metadata = {
   title: "Wiki Wine App",
-  description: "information on countries, regions and grape varieties",
+  description: "Découvrez le monde du vin",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className="flex flex-col h-screen text-paragraph bg-white"
-      >
-        <BackToTop />
-
-        <main className="flex-grow p-4 pb-32">
-          {children}
-        </main>
-        <Footer />
+    <html lang="fr">
+      <body className="flex flex-col h-screen text-paragraph bg-white">
+        <LoadingProvider>
+          <BackToTop />
+          <main className="flex-grow p-4 pb-32">
+            {children}
+          </main>
+          <Footer />
+        </LoadingProvider>
       </body>
     </html>
   );
