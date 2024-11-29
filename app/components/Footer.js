@@ -5,7 +5,7 @@ import Menu from "./Menu.js"
 import BackToTop from './BackToTop.js';
 
 export default function Footer() {
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(true);
     return (
         <footer className={`fixed bottom-0 left-0 right-0 flex flex-col justify-center items-center}`}>
             <BackToTop />

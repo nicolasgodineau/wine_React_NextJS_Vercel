@@ -139,7 +139,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
                     </ul>
                 </div>
             )}
-            {isSearchOpen && <Search onClose={() => setIsSearchOpen(false)} />}
+            {isSearchOpen && <Search onClose={() => setIsSearchOpen(false)} setIsSearchOpen={setIsSearchOpen} />}
         </div>
     );
 }

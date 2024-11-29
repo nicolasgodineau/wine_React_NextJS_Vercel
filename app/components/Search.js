@@ -8,7 +8,7 @@ import RippleButton from '@components/RippleButton';
 import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
 import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 
-export default function Search() {
+export default function Search({ setIsSearchOpen }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -67,6 +67,7 @@ export default function Search() {
                 {results.length > 0 ? (
                     results.map((result) => (
                         <li
+                            onClick={() => setIsSearchOpen(false)}
                             key={result.id}
                             className="flex justify-center items-center bg-neutral-100/80 rounded-xl shadow hover:bg-gray-100 text-paragraph"
                         >
