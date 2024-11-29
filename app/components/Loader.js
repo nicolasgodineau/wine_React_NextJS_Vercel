@@ -5,26 +5,27 @@ import BottelLoaderSvg from '@components/icons/BottelLoaderSvg.js';
 import Image from 'next/image.js';
 import { useEffect, useState } from 'react';
 import Bouteille from "@icons/Group.png"
-import { useRouter } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function Loader() {
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const handleStart = () => setLoading(true);
-        const handleComplete = () => setLoading(false);
+        const handleComplete = () => {
+            setLoading(false);
+        };
 
-        router.events.on('routeChangeStart', handleStart);
-        router.events.on('routeChangeComplete', handleComplete);
-        router.events.on('routeChangeError', handleComplete);
+        handleStart();
+        // Set a small timeout to show loading state
+        const timer = setTimeout(handleComplete, 100);
 
         return () => {
-            router.events.off('routeChangeStart', handleStart);
-            router.events.off('routeChangeComplete', handleComplete);
-            router.events.off('routeChangeError', handleComplete);
+            clearTimeout(timer);
         };
-    }, [router]);
+    }, [pathname, searchParams]); // This will trigger when the route changes
 
     if (!loading) return null;
 
@@ -42,6 +43,5 @@ export default function Loader() {
                 style={{ objectFit: "contain" }}
             />
         </div>
-
     );
 }
