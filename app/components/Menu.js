@@ -101,7 +101,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
         };
     }, [setIsSearchOpen]);
 
-    const containerClass = `w-full flex justify-around items-center ${openItem || isSearchOpen ? 'flex-col-reverse' : 'flex-row'}`;
+    const containerClass = `w-full flex justify-around items-center px-2 ${openItem || isSearchOpen ? 'flex-col-reverse' : 'flex-row'}`;
 
     return (
         <div ref={menuRef} className={containerClass}>

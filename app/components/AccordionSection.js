@@ -33,7 +33,7 @@ const Section = ({ heading, content, subsections }) => {
     const isSubsection = !!subsections; // Si la section a des sous-sections, c'est une sous-section
 
     return (
-        <div className={`${isSubsection ? 'custom_css_section my-4' : 'custom_css_subsections p-1'} ${isOpen ? 'pb-2' : ''}`}> {/* Ajouter une classe conditionnelle */}
+        <div className={`${isSubsection ? 'custom_css_section px-2 my-2' : 'custom_css_subsections  p-1'} ${isOpen ? 'pb-2' : ''}`}> {/* Ajouter une classe conditionnelle */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full text-left"

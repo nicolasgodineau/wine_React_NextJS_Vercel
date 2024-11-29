@@ -16,7 +16,7 @@ body {
         @apply rounded-xl shadow-md shadow-stone-500/20 bg-neutral-50;
     }
     .custom_css_subsections {
-        @apply mb-4 mx-2 p-3 rounded-xl shadow-md border-t-neutral-300/50 border-t bg-neutral-100;
+        @apply mb-4 p-3 rounded-lg shadow border-t-neutral-200/50 border-t bg-neutral-100;
     }
 }
 

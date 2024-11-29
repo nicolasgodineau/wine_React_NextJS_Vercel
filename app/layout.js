@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="fr">
       <body className="flex flex-col h-screen text-paragraph bg-white">
         <LoadingProvider>
-          <BackToTop />
+
           <main className="flex-grow p-4 pb-32">
             {children}
           </main>

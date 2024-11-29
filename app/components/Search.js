@@ -48,8 +48,8 @@ export default function Search() {
     };
 
     return (
-        <div className="w-full flex flex-col-reverse items-stretch gap-4 mb-8 text-paragraph ">
-            <div className="flex rounded-xl bg-neutral-100/50 p-1">
+        <div className="w-full flex flex-col-reverse items-stretch gap-4 pb-2 pt-4 text-paragraph ">
+            <div className="flex gap-1 rounded-xl bg-neutral-100/50 p-1">
                 <input
                     type="text"
                     value={query}
@@ -57,33 +57,33 @@ export default function Search() {
                     placeholder="Rechercher"
                     className="bg-transparent w-5/6 rounded-xl p-2"
                 />
-                <RippleButton className="w-1/2 rounded-xl bg-neutral-200/80 px-4 py-2 disabled:opacity-50" effectWidth={150} effectHeight={150} onClick={handleSearch}
+                <RippleButton className="w-1/2 rounded-xl bg-neutral-300/40 px-4 py-2 disabled:opacity-50" effectWidth={100} effectHeight={100} onClick={handleSearch}
                     disabled={loading}>
                     {loading ? 'Recherche...' : 'Valider'}
                 </RippleButton>
             </div>
             {error && <p className="text-red mt-2">{error}</p>}
-            <ul className="w-full flex flex-col gap-4">
+            <ul className="w-full flex flex-col gap-4 ">
                 {results.length > 0 ? (
                     results.map((result) => (
                         <li
                             key={result.id}
-                            className="flex justify-center items-center p-2 my-2 bg-neutral-200 rounded-xl shadow hover:bg-gray-100"
+                            className="flex justify-center items-center bg-neutral-100/80 rounded-xl shadow hover:bg-gray-100 text-paragraph"
                         >
                             {/* Condition pour afficher un émoji de drapeau ou l'image du cépage */}
                             {result.type === 'country' ? (
-                                <RippleButton className="w-full px-3 rounded-full shadow-none" effectWidth={150} effectHeight={150}>
-                                    <Link href={`/pays/${result.id}`} className="flex w-full items-center justify-start">
+                                <RippleButton className="w-full rounded-xl" effectWidth={150} effectHeight={150}>
+                                    <Link href={`/pays/${result.id}`} className="flex w-full items-center justify-start px-1 py-2 ">
                                         <>
                                             <span className="text-2xl mr-2">{result.icon}</span>
                                             <span>{result.name}</span>
-                                            <span className="ml-auto text-sm text-gray-500">{result.continent}</span>
+
                                         </>
                                     </Link>
                                 </RippleButton>
                             ) : (
-                                <RippleButton className="w-full px-3 rounded-full shadow-none" effectWidth={150} effectHeight={150}>
-                                    <Link href={`/cepages/${result.id}`} className="flex w-full items-center justify-start">
+                                <RippleButton className="w-full rounded-xl " effectWidth={150} effectHeight={150}>
+                                    <Link href={`/cepages/${result.id}`} className="flex w-full items-center justify-start px-1 py-2 ">
                                         <>
                                             {/* Vérifie si c'est un cépage de type "rouge" ou "blanc" */}
                                             {result.icon[0].toLowerCase() === 'rouge' ? (
@@ -101,7 +101,7 @@ export default function Search() {
                     ))
                 ) : (
                     searchInitiated && !loading && results.length === 0 && (
-                        <p className="text-gray-500">Aucun résultat trouvé</p>
+                        <p className="text-paragraph">Aucun résultat trouvé</p>
                     )
                 )}
             </ul>
