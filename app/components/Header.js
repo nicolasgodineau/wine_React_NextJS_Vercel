@@ -19,16 +19,19 @@ const Header = ({ icon, title }) => {
 
     return (
         <header
-            className={`sticky top-0 z-50  p-4  ${isScrolled ? "bg-white flex flex-row!important p-0 shadow-lg " : "flex flex-col items-center bg-transparent py-4"
-                }`}
+            className="sticky top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"
         >
-            <span className="text-7xl">{icon}</span>
-            <h1
-                className={`text-h2 font-bold text-center transition-colors ${isScrolled ? "text-secondary" : "text-primary"
-                    }`}
-            >
-                {title}
-            </h1>
+            <div className={`${isScrolled ? " flex flex-row!important items-center justify-center p-0 " : "flex flex-col items-center bg-transparent py-4"
+                }`}>
+
+                <span className={`${isScrolled ? "text-h1" : "text-7xl"}`}>{icon}</span>
+                <h1
+                    className={`text-h2 font-bold text-center transition-colors ${isScrolled ? "text-secondary text-h2" : "text-primary"
+                        }`}
+                >
+                    {title}
+                </h1>
+            </div>
         </header>
     );
 };
