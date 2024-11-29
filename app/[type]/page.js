@@ -5,6 +5,7 @@ import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
 import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
 import { Suspense } from 'react';
 import Loader from '@app/components/Loader.js';
+import Header from '@app/components/Header.js';
 
 // Metadata optimization
 export const dynamic = 'force-dynamic';
@@ -75,12 +76,7 @@ export default async function DynamicPage({ params, searchParams }) {
     return (
         <Suspense fallback={<Loader />}>
             <>
-                <header className="flex flex-col items-center my-10">
-                    <span className="text-7xl">{icon}</span>
-                    <h1 className="text-h1 font-bold text-center text-primary">
-                        {title}
-                    </h1>
-                </header>
+                <Header icon={icon} title={title} />
                 <section className="flex flex-col gap-4 text-primary">
                     {data.map((item) => (
                         <li key={item.id} className="w-full flex flex-col items-center custom_css_section">
