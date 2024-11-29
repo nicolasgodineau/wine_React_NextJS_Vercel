@@ -83,15 +83,15 @@ export default async function DynamicPage({ params, searchParams }) {
                 </header>
                 <section className="flex flex-col gap-4 text-primary">
                     {data.map((item) => (
-                        <li key={item.id} className="w-full custom_css_section">
+                        <li key={item.id} className="w-full flex flex-col items-center custom_css_section">
                             {type === 'cepages' ? (
-                                <RippleButton className="w-full" effectWidth={150} effectHeight={150}>
+                                <RippleButton className="w-full rounded-xl" effectWidth={200} effectHeight={200}>
                                     <Link
-                                        className="w-full flex flex-row items-center justify-start mb-0 pt-2"
+                                        className="w-full flex flex-row items-center justify-start mb-0 py-1"
                                         href={`/cepages/${item.id}`}
                                         title={item.name}
                                     >
-                                        <span className="px-4 text-7xl">
+                                        <span className="px-4 text-4xl">
                                             {item.type[0]?.toLowerCase() === 'rouge' ? (
                                                 <GrappeRedSvg width={45} height={45} />
                                             ) : (
@@ -104,11 +104,11 @@ export default async function DynamicPage({ params, searchParams }) {
                             ) : (
                                 <RippleButton className="w-full rounded-xl" effectWidth={200} effectHeight={200}>
                                     <Link
-                                        className="w-full flex flex-row items-center justify-start mb-0"
+                                        className="w-full flex flex-row items-center justify-start mb-0 py-1"
                                         href={`/pays/${item.id}`}
                                         title={item.name}
                                     >
-                                        <span className="text-4xl px-4">{item.flag}</span>
+                                        <span className="h-[45px] text-5xl px-4">{item.flag}</span>
                                         {item.name}
                                     </Link>
                                 </RippleButton>
