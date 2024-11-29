@@ -5,29 +5,18 @@ import BottelLoaderSvg from '@components/icons/BottelLoaderSvg.js';
 import Image from 'next/image.js';
 import { useEffect, useState } from 'react';
 import Bouteille from "@icons/Group.png"
-import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function Loader() {
-    const [loading, setLoading] = useState(false);
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const [show, setShow] = useState(true);
 
     useEffect(() => {
-        const handleStart = () => setLoading(true);
-        const handleComplete = () => {
-            setLoading(false);
-        };
+        // Hide the loader after 5 seconds
+        setTimeout(() => {
+            setShow(false);
+        }, 5000);
+    }, []);
 
-        handleStart();
-        // Set a small timeout to show loading state
-        const timer = setTimeout(handleComplete, 100);
-
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [pathname, searchParams]); // This will trigger when the route changes
-
-    if (!loading) return null;
+    if (!show) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-80 z-50">
@@ -43,5 +32,6 @@ export default function Loader() {
                 style={{ objectFit: "contain" }}
             />
         </div>
+
     );
 }
