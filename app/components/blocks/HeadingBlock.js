@@ -25,7 +25,7 @@ export function HeadingBlock({ block }) {
             break;
         case 'heading_3':
             HeadingTag = 'h4';
-            styleClass = "text-h4 font-medium text-quaternary pt-2 pb-0  border-t border-neutral-200";
+            styleClass = "text-h4 font-medium text-quaternary pt-2 pb-0 border-t border-neutral-200";
             break;
         default:
             HeadingTag = 'h4';

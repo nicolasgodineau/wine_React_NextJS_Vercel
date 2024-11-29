@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
       <body className="flex flex-col h-screen text-paragraph bg-white">
         <LoadingProvider>
 
-          <main className="flex-grow p-4 pb-32">
+          <main className="flex-grow pb-32">
             {children}
           </main>
           <Footer />

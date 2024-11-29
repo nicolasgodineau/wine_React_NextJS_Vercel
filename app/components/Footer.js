@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Menu from "./Menu.js"
-import BackButton from './BackButton.js';
 import BackToTop from './BackToTop.js';
 
 export default function Footer() {

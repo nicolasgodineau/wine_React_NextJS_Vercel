@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { renderBlocks } from '@utils/notionUtils.js';
 import { HeadingBlock } from '@components/blocks/HeadingBlock.js';
+import PlusSvg from './icons/PlusSvg.js';
+import MoinSvg from './icons/MoinSvg.js';
 
 // Composant pour rendre un bloc de contenu
 const ContentBlock = ({ content }) => {
@@ -36,9 +38,14 @@ const Section = ({ heading, content, subsections }) => {
         <div className={`${isSubsection ? 'custom_css_section px-2 my-2' : 'custom_css_subsections  p-1'} ${isOpen ? 'pb-2' : ''}`}> {/* Ajouter une classe conditionnelle */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full text-left"
+                className="flex items-center justify-between bg-neutral-50  w-full text-left"
             >
                 <HeadingBlock block={heading} />
+                <span className='shadow-sm rounded-full p-1'>{isOpen ? (
+                    <MoinSvg size={20} className="fill-current text-primary" />
+                ) : (
+                    <PlusSvg size={20} className="fill-current text-primary" />
+                )}</span>
             </button>
             {isOpen && (
                 <>

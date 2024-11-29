@@ -2,11 +2,6 @@ import { getCompleteCountryData } from '@lib/notion';
 import BackButton from '@components/BackButton';
 import ImageModal from '@components/ImageModal';
 import ListAside from '@components/ListAside';
-import Image from 'next/image';
-import Link from 'next/link.js';
-
-
-
 
 
 export default async function CountryPage({ params }) {
@@ -25,7 +20,7 @@ export default async function CountryPage({ params }) {
                     {countryData.country.name}
                 </h1>
             </header>
-            <BackButton />
+            {/* <BackButton /> */}
             {/* affiche l'image */}
             {(countryData.grapes.length > 0 && countryData.country.map) && (
                 <div className='w-full flex justify-center mb-8'>
