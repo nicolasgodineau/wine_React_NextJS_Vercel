@@ -5,18 +5,28 @@ import BottelLoaderSvg from '@components/icons/BottelLoaderSvg.js';
 import Image from 'next/image.js';
 import { useEffect, useState } from 'react';
 import Bouteille from "@icons/Group.png"
+import { useRouter } from 'next/navigation';
 
 export default function Loader() {
-    const [show, setShow] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
-        // Hide the loader after 5 seconds
-        setTimeout(() => {
-            setShow(false);
-        }, 5000);
-    }, []);
+        const handleStart = () => setLoading(true);
+        const handleComplete = () => setLoading(false);
 
-    if (!show) return null;
+        router.events.on('routeChangeStart', handleStart);
+        router.events.on('routeChangeComplete', handleComplete);
+        router.events.on('routeChangeError', handleComplete);
+
+        return () => {
+            router.events.off('routeChangeStart', handleStart);
+            router.events.off('routeChangeComplete', handleComplete);
+            router.events.off('routeChangeError', handleComplete);
+        };
+    }, [router]);
+
+    if (!loading) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-80 z-50">
