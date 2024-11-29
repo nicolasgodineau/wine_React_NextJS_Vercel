@@ -35,7 +35,7 @@ export default function BackToTop() {
     return (
         <>
             {isVisible && (
-                <div className=" self-end  rounded-full z-10">
+                <div className="absolute -top-32 self-end rounded-full z-10">
                     <div className='pt-8 pl-8 pb-8 pr-2 cursor-pointer transition-transform hover:scale-110 '>
                         <RippleButton onClick={scrollToTop} className=" flex items-center justify-center p-3 rounded-full backdrop-blur-xl bg-neutral-300/50 ">
                             <ArrowBackSvg width="30px" height="30px" fill="#4c0519" className="transform rotate-90 " />
