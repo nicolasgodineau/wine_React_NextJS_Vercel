@@ -77,9 +77,9 @@ export default async function DynamicPage({ params, searchParams }) {
         <Suspense fallback={<Loader />}>
             <>
                 <Header icon={icon} title={title} />
-                <section className="flex flex-col gap-4 px-1 text-primary">
+                <section className="flex flex-col gap-4 text-primary">
                     {data.map((item) => (
-                        <li key={item.id} className="w-full flex flex-col items-center custom_css_section">
+                        <li key={item.id} className="w-full flex flex-col items-center custom_css_rounded_shadow_bg">
                             {type === 'cepages' ? (
                                 <RippleButton className="w-full rounded-xl" effectWidth={200} effectHeight={200}>
                                     <Link

@@ -34,15 +34,11 @@ export default async function CountryPage({ params }) {
                 </div>
 
             )}
-            <section className="custom_css_section">
-                <ListAside
-                    title="Cépages dans ce pays"
-                    data={countryData.grapes}
-                    isCountryData={false} // On indique que ce sont des cépages (ce qui va afficher des icônes)
-                />
-
-
-            </section>
+            <ListAside
+                title="Cépages dans ce pays"
+                data={countryData.grapes}
+                isCountryData={false} // On indique que ce sont des cépages (ce qui va afficher des icônes)
+            />
         </>
     );
 }
