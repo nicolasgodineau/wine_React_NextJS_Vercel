@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
+import React from 'react';
 
 export default function Header({ icon, title }) {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -19,14 +20,23 @@ export default function Header({ icon, title }) {
 
     return (
         <header
-            className="sticky top-0 left-0 right-0 p-0 z-50  bg-white shadow"
+            className="sticky top-0 left-0 right-0 p-0 z-50  "
         >
-            <div className={`transition-all duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 " : "flex flex-col items-center bg-transparent py-4"
+            <div className={`transition-transform duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 py-1 shadow  backdrop-blur-lg backdrop-saturate-50 bg-white/60" : "flex flex-col items-center bg-white py-4"
                 }`}>
 
-                <span className={`transition-all duration-300 ${isScrolled ? "text-h2" : "text-7xl"}`}>{icon}</span>
+                <span className={`transition-transform duration-300 ${isScrolled ? "text-5xl" : "text-7xl"}`}>
+                    {React.isValidElement(icon)
+                        ? React.cloneElement(icon, {
+                            width: isScrolled ? 48 : 72,
+                            height: isScrolled ? 48 : 72,
+                            className: `inline-block transition-transform duration-300 ${icon.props.className || ''}`
+                        })
+                        : icon
+                    }
+                </span>
                 <h1
-                    className={`text-h2 font-bold text-center px-2 transition-all duration-300 ${isScrolled ? "text-secondary text-h3" : "text-primary"
+                    className={`text-h2 font-bold text-center px-2 transition-transform duration-300 ${isScrolled ? "text-secondary text-h2 px-0" : "text-primary"
                         }`}
                 >
                     {title}

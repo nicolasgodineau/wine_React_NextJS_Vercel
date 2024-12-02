@@ -22,9 +22,9 @@ export default async function GrapePage({ params }) {
     return (
         <>
             <Header icon={grapeData.type.toLowerCase() === 'rouge' ? (
-                <GrappeRedSvg className="inline-block mr-2" width={72} height={72} />
+                <GrappeRedSvg className="inline-block" width={72} height={72} />
             ) : (
-                <GrappeWhiteSvg className="inline-block mr-2" width={72} height={72} />
+                <GrappeWhiteSvg className="inline-block" width={72} height={72} />
             )} title={grapeData.name}>
             </Header>
             {sections.map((section, index) => (

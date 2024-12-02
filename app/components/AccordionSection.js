@@ -35,10 +35,10 @@ const Section = ({ heading, content, subsections }) => {
     const isSubsection = !!subsections; // Si la section a des sous-sections, c'est une sous-section
 
     return (
-        <div className={`${isSubsection ? 'custom_css_rounded_shadow_bg m-4 p-2' : 'custom_css_subsections my-3 p-2 '} ${isOpen ? '' : ''}`}> {/* Ajouter une classe conditionnelle */}
+        <div className={`${isSubsection ? 'custom_css_rounded_shadow_bg m-4 p-2' : 'custom_css_subsections my-3 p-2 -z-30'} ${isOpen ? '' : ''}`}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-between w-full text-left"
+                className="flex items-center justify-between w-full text-left "
             >
                 <HeadingBlock block={heading} />
                 <span className='shadow-sm rounded-full p-1'>{isOpen ? (
