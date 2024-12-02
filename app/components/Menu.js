@@ -107,7 +107,7 @@ export default function Menu({ isSearchOpen, setIsSearchOpen }) {
         <div ref={menuRef} className={containerClass}>
             <div className='w-full flex justify-around items-center '>
                 {menuItems.map((item) => (
-                    <RippleButton key={item.name} className="rounded-full p-2">
+                    <RippleButton key={item.name} className="rounded-full p-1">
                         <div
                             onClick={() => handleItemClick(item.name)}
                             className="cursor-pointer p-2 font-bold"

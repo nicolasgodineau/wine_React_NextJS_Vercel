@@ -7,7 +7,7 @@ export default function Header({ icon, title }) {
 
     useEffect(() => {
         let timeoutId;
-        
+
         const handleScroll = () => {
             if (timeoutId) {
                 clearTimeout(timeoutId);
@@ -17,7 +17,7 @@ export default function Header({ icon, title }) {
                 const scrollY = window.scrollY;
                 const pageHeight = document.documentElement.scrollHeight;
                 const viewportHeight = window.innerHeight;
-                
+
                 // Only apply scroll effect if page is tall enough to scroll
                 if (pageHeight > viewportHeight + 100) {
                     setIsScrolled(scrollY > 100);
@@ -44,9 +44,9 @@ export default function Header({ icon, title }) {
 
     return (
         <header
-            className="sticky top-0 left-0 right-0 p-0 z-50  "
+            className="sticky top-0 left-0 right-0 p-0 z-50  rounded-b-2xl"
         >
-            <div className={`transition-all duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 py-1 shadow  backdrop-blur-lg backdrop-saturate-50 bg-white/60" : "flex flex-col items-center bg-white py-4"
+            <div className={`transition-all duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 py-1 shadow  backdrop-blur-lg backdrop-saturate-50 bg-white/60 rounded-b-2xl mx-2" : "flex flex-col items-center bg-white py-2"
                 }`}>
 
                 <span className={`transition-all duration-300 ${isScrolled ? "text-5xl" : "text-7xl"}`}>
