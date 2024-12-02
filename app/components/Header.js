@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import React from 'react';
 
 export default function Header({ icon, title }) {
@@ -44,10 +44,9 @@ export default function Header({ icon, title }) {
 
     return (
         <header
-            className="sticky top-0 left-0 right-0 p-0 z-50  rounded-b-2xl"
+            className="sticky top-0 left-0 right-0 p-0 z-50 rounded-b-2xl"
         >
-            <div className={`transition-all duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 py-1 shadow  backdrop-blur-lg backdrop-saturate-50 bg-white/60 rounded-b-2xl mx-2" : "flex flex-col items-center bg-white py-2"
-                }`}>
+            <div className={`transition-all duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 py-1 shadow  backdrop-blur-lg backdrop-saturate-50 bg-white/60 rounded-b-2xl mx-2" : "flex flex-col items-center bg-white py-2"}`}>
 
                 <span className={`transition-all duration-300 ${isScrolled ? "text-5xl" : "text-7xl"}`}>
                     {React.isValidElement(icon)
@@ -60,8 +59,7 @@ export default function Header({ icon, title }) {
                     }
                 </span>
                 <h1
-                    className={`text-h2 font-bold text-center px-2 transition-all duration-300 ${isScrolled ? "text-secondary text-h2 px-0" : "text-primary"
-                        }`}
+                    className={`text-h2 font-bold text-center px-2 transition-all duration-300 ${isScrolled ? "text-secondary text-h2 px-0" : "text-primary"}`}
                 >
                     {title}
                 </h1>

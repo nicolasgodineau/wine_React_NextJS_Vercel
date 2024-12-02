@@ -82,8 +82,8 @@ header {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 * {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 /* Ensure smooth scrolling */
@@ -92,10 +92,10 @@ html {
 }
 
 /* Optimize for mobile */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     html, body {
         overflow-x: hidden;
         position: relative;
         width: 100%;
     }
-}
+} */
