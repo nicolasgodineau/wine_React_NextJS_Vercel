@@ -7,6 +7,7 @@ import ListAside from '@components/ListAside';
 // icônes
 import GrappeRedSvg from '@components/icons/GrappeRedSvg.js';
 import GrappeWhiteSvg from '@components/icons/GrappeWhiteSvg.js';
+import Header from '@app/components/Header.js';
 
 
 export default async function GrapePage({ params }) {
@@ -20,16 +21,12 @@ export default async function GrapePage({ params }) {
 
     return (
         <>
-            <header className="flex flex-col items-center my-10">
-                {grapeData.type.toLowerCase() === 'rouge' ? (
-                    <GrappeRedSvg className="inline-block mr-2" width={72} height={72} />
-                ) : (
-                    <GrappeWhiteSvg className="inline-block mr-2" width={72} height={72} />
-                )}
-                <h1 className="text-h1 font-bold text-center text-primary ">
-                    {grapeData.name}
-                </h1>
-            </header>
+            <Header icon={grapeData.type.toLowerCase() === 'rouge' ? (
+                <GrappeRedSvg className="inline-block mr-2" width={72} height={72} />
+            ) : (
+                <GrappeWhiteSvg className="inline-block mr-2" width={72} height={72} />
+            )} title={grapeData.name}>
+            </Header>
             {sections.map((section, index) => (
                 <AccordionSection key={index} section={section} />
             ))}

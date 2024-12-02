@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 
-const Header = ({ icon, title }) => {
+export default function Header({ icon, title }) {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -19,14 +19,14 @@ const Header = ({ icon, title }) => {
 
     return (
         <header
-            className="sticky top-0 left-0 right-0 p-0 z-50  bg-white"
+            className="sticky top-0 left-0 right-0 p-0 z-50  bg-white shadow"
         >
             <div className={`transition-all duration-300 ${isScrolled ? " flex flex-row!important items-center justify-center p-0 " : "flex flex-col items-center bg-transparent py-4"
                 }`}>
 
-                <span className={`transition-all duration-300 ${isScrolled ? "text-h1" : "text-7xl"}`}>{icon}</span>
+                <span className={`transition-all duration-300 ${isScrolled ? "text-h2" : "text-7xl"}`}>{icon}</span>
                 <h1
-                    className={`text-h2 font-bold text-center transition-all duration-300 ${isScrolled ? "text-secondary text-h2" : "text-primary"
+                    className={`text-h2 font-bold text-center px-2 transition-all duration-300 ${isScrolled ? "text-secondary text-h3" : "text-primary"
                         }`}
                 >
                     {title}
@@ -35,5 +35,3 @@ const Header = ({ icon, title }) => {
         </header>
     );
 };
-
-export default Header;
